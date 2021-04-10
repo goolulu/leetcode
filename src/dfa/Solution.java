@@ -76,8 +76,32 @@ public class Solution {
         }
         return i;
     }
+    /** 
+    * @Description: 35. 搜索插入位置
+    * @Param:  
+    * @return:  
+    * @Author: huang 
+    * @Date: 2021/4/10
+    */
+    public int searchInsert(int[] nums, int target) {
+        int left = 0;
+        int right = nums.length-1;
+        int key = nums.length;
+        while (left <= right) {
+            //这种方式能够防止溢出
+            int mid = ((right-left)>>1)+left;
+            if (target <= nums[mid]) {
+                key = mid;
+                right = mid - 1;
+            } else {
+                left=mid+1;
+            }
+        }
+        return key;
+    }
+
     public static void main(String[] args) {
         Solution solution = new Solution();
-        solution.removeElement(new int[]{3,2,2,1,5},1);
+        solution.searchInsert(new int[]{1,3},2);
     }
 }
