@@ -1,9 +1,7 @@
 package dfa;
 
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
+import java.util.*;
 
 /**
  * @author huangrn
@@ -99,9 +97,50 @@ public class Solution {
         }
         return key;
     }
-
+    /** 
+    * @Description: 53. 最大子序和 
+    * @Param:  
+    * @return:  
+    * @Author: huang 
+    * @Date: 2021/4/10-18:26
+    */
+    public int maxSubArray(int[] nums) {
+        int pre = 0,
+        max = nums[0];
+        for (int x : nums) {
+            pre = Math.max(pre + x, x);
+            max = Math.max(pre, max);
+        }
+        return max;
+    }
+    /** 
+    * @Description: 66. 加一
+    * @Param:  
+    * @return:  
+    * @Author: huang 
+    * @Date: 2021/4/11-11:11
+    */
+    public int[] plusOne(int[] digits) {
+        int[] result = new int[digits.length + 1];
+        System.arraycopy(digits,0,result,1,digits.length);
+        int jinwei = 1;
+        for (int i = result.length-1; i >=0; i--) {
+            if (jinwei == 1 && result[i] + 1 >= 10) {
+                result[i] = (result[i]+1) % 10;
+                jinwei = 1;
+            } else {
+                result[i] = result[i]+1;
+                break;
+            }
+        }
+        if (result[0] == 0) {
+            System.arraycopy(result,1,digits,0,digits.length);
+            return digits;
+        }
+        return result;
+    }
     public static void main(String[] args) {
         Solution solution = new Solution();
-        solution.searchInsert(new int[]{1,3},2);
+        solution.plusOne(new int[]{4,3,2,1});
     }
 }
