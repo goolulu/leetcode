@@ -98,7 +98,7 @@ public class Solution {
         return key;
     }
     /** 
-    * @Description: 53. 最大子序和 
+    * @Description: 53. 最大子序和 贪心算法
     * @Param:  
     * @return:  
     * @Author: huang 
@@ -206,8 +206,181 @@ public class Solution {
         }
         return ret;
     }
+
+    /** 
+    * @Description: 119. 杨辉三角 II 相比上一道题只需要求出保存前一行数组就可以了
+    * @Param:  
+    * @return:  
+    * @Author: huang 
+    * @Date: 2021/4/11-16:09
+    */
+    /*public List<Integer> getRow(int rowIndex) {
+        List<Integer> pre = new ArrayList<>();
+        for (int i = 0; i <= rowIndex; i++) {
+            List<Integer> row  = new ArrayList<>();
+            for (int j = 0; j <= i; j++) {
+                if (j == 0 || j == i) {
+                    row.add(1);
+                } else {
+                    //滚动数组
+                    row.add(pre.get(j - 1) + pre.get(j));
+                }
+            }
+            pre=row;
+        }
+        return pre;
+    }*/
+    //方法二
+    public List<Integer> getRow(int rowIndex) {
+        List<Integer> row = new ArrayList<Integer>();
+        row.add(1);
+        for (int i = 1; i <= rowIndex; ++i) {
+            row.add(0);
+            for (int j = i; j > 0; --j) {
+                row.set(j, row.get(j) + row.get(j - 1));
+            }
+        }
+        return row;
+    }
+    /** 
+    * @Description: 121. 买卖股票的最佳时机,贪心算法
+    * @Param:  
+    * @return:  
+    * @Author: huang 
+    * @Date: 2021/4/11-16:54
+    */
+
+    public int maxProfit(int[] prices) {
+        int sum = 0;
+        int cur = prices[0];
+        for (int i = 1; i < prices.length; i++) {
+            if (prices[i] > cur) {
+                if (prices[i] - cur > sum) {
+                    sum = prices[i] - cur;
+                }
+            } else if (prices[i] < cur) {
+                cur = prices[i];
+            }
+        }
+        return sum;
+    }
+    /** 
+    * @Description: 167. 两数之和 II - 输入有序数组
+    * @Param:  
+    * @return:  
+    * @Author: huang 
+    * @Date: 2021/4/11-17:02
+    */
+    /*public int[] twoSum1(int[] numbers, int target) {
+        int[] result = new int[2];
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < numbers.length; i++) {
+            if (map.containsKey(target - numbers[i])) {
+                result[1] = i+1;
+                result[0] = map.get(target - numbers[i])+1;
+            } else {
+                map.put(numbers[i], i);
+            }
+        }
+        return result;
+    }*/
+    //二分法
+    public int[] twoSum1(int[] numbers, int target) {
+
+        for (int i = 0; i < numbers.length; i++) {
+            int left =i+1;
+            int right = numbers.length-1;
+            while (left <= right) {
+                int mid = ((right-left)>>2)+left;
+                if (target - numbers[i] > numbers[mid]) {
+                    left=mid+1;
+                } else if (target - numbers[i] == numbers[mid]) {
+                    return new int[]{i, mid};
+                } else {
+                    right = mid-1;
+                }
+            }
+        }
+        return new int[]{-1,-1};
+    }
+    /**
+    * @Description: 122. 买卖股票的最佳时机 II
+    * @Param:
+    * @return:
+    * @Author: huang
+    * @Date: 2021/4/12-8:44
+    */
+
+    public int maxProfit1(int[] prices) {
+        int key = Integer.MAX_VALUE;
+        int sum = 0;
+        int max = 0;
+        int i =0;
+        while (i < prices.length) {
+            if (prices[i] < key) {
+                key = prices[i];
+            } else if (prices[i] > key) {
+                sum += prices[i] - key;
+                key = prices[i];
+            }
+            i++;
+        }
+        return  sum;
+    }
+    /**
+     * @Description: 169. 多数元素
+     * @Param:
+     * @return:
+     * @Author: huang
+     * @Date: 2021/4/14-22:24
+     */
+    /*public int majorityElement(int[] nums) {
+        Arrays.sort(nums);
+        int major = nums.length/2+1;
+        return nums[major];
+    }*/
+    //方法二
+    public int majorityElement(int[] nums) {
+        int major = nums[0];
+        int count = 1;
+        for (int i = 1; i < nums.length; i++) {
+            if (nums[i] == major) {
+                count++;
+            } else {
+                count--;
+                if (count == 0) {
+                    major = nums[i];
+                    count=1;
+                }
+            }
+        }
+        return major;
+    }
+    
+    /** 
+    * @Description: 217. 存在重复元素
+    * @Param:  
+    * @return:  
+    * @Author: huang 
+    * @Date: 2021/4/14-22:31
+    */
+    public boolean containsDuplicate(int[] nums) {
+        HashMap<Integer, Integer> map = new HashMap<>();
+        boolean result = false;
+        for (int i = 0; i < nums.length; i++) {
+            if (map.containsKey(nums[i])) {
+                result = true;
+                break;
+            } else {
+                map.put(nums[i], nums[i]);
+            }
+        }
+        return result;
+    }
+    
+
     public static void main(String[] args) {
         Solution solution = new Solution();
-        solution.generate(5);
+        solution.containsDuplicate(new int[]{1,2,3,4});
     }
 }
