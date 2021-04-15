@@ -1,7 +1,8 @@
 package dfa;
 
-import java.lang.reflect.Array;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * @author huangrn
@@ -11,6 +12,7 @@ import java.util.*;
 public class Solution {
     /**
      * 1. 两数之和
+     *
      * @date 2021/4/9
      */
     public int[] twoSum(int[] nums, int target) {
@@ -39,16 +41,16 @@ public class Solution {
                 nums[i] = nums[j];
             }
         }
-        return i+1;
+        return i + 1;
     }
 
     /**
-    * @Description: 27. 移除元素
-    * @Param:
-    * @return:
-    * @Author: huang
-    * @Date: 2021/4/10
-    */
+     * @Description: 27. 移除元素
+     * @Param:
+     * @return:
+     * @Author: huang
+     * @Date: 2021/4/10
+     */
     //方法一
    /* public int removeElement(int[] nums, int val) {
         int i = 0;
@@ -63,9 +65,9 @@ public class Solution {
         }
         return n;
     }*/
-   //方法二
+    //方法二
     public int removeElement(int[] nums, int val) {
-        int i=0;
+        int i = 0;
         for (int j = 0; j < nums.length; j++) {
             if (nums[j] != val) {
                 nums[i] = nums[j];
@@ -74,52 +76,55 @@ public class Solution {
         }
         return i;
     }
-    /** 
-    * @Description: 35. 搜索插入位置
-    * @Param:  
-    * @return:  
-    * @Author: huang 
-    * @Date: 2021/4/10
-    */
+
+    /**
+     * @Description: 35. 搜索插入位置
+     * @Param:
+     * @return:
+     * @Author: huang
+     * @Date: 2021/4/10
+     */
     public int searchInsert(int[] nums, int target) {
         int left = 0;
-        int right = nums.length-1;
+        int right = nums.length - 1;
         int key = nums.length;
         while (left <= right) {
             //这种方式能够防止溢出
-            int mid = ((right-left)>>1)+left;
+            int mid = ((right - left) >> 1) + left;
             if (target <= nums[mid]) {
                 key = mid;
                 right = mid - 1;
             } else {
-                left=mid+1;
+                left = mid + 1;
             }
         }
         return key;
     }
-    /** 
-    * @Description: 53. 最大子序和 贪心算法
-    * @Param:  
-    * @return:  
-    * @Author: huang 
-    * @Date: 2021/4/10-18:26
-    */
+
+    /**
+     * @Description: 53. 最大子序和 贪心算法
+     * @Param:
+     * @return:
+     * @Author: huang
+     * @Date: 2021/4/10-18:26
+     */
     public int maxSubArray(int[] nums) {
         int pre = 0,
-        max = nums[0];
+                max = nums[0];
         for (int x : nums) {
             pre = Math.max(pre + x, x);
             max = Math.max(pre, max);
         }
         return max;
     }
-    /** 
-    * @Description: 66. 加一
-    * @Param:  
-    * @return:  
-    * @Author: huang 
-    * @Date: 2021/4/11-11:11
-    */
+
+    /**
+     * @Description: 66. 加一
+     * @Param:
+     * @return:
+     * @Author: huang
+     * @Date: 2021/4/11-11:11
+     */
     /*public int[] plusOne(int[] digits) {
         int[] result = new int[digits.length + 1];
         System.arraycopy(digits,0,result,1,digits.length);
@@ -141,9 +146,9 @@ public class Solution {
     }*/
     //方法二
     public int[] plusOne(int[] digits) {
-        for (int i = digits.length-1; i >=0 ; i--) {
+        for (int i = digits.length - 1; i >= 0; i--) {
             digits[i]++;
-            digits[i] = digits[i]%10;
+            digits[i] = digits[i] % 10;
             if (digits[i] != 0) {
                 return digits;
             }
@@ -156,17 +161,18 @@ public class Solution {
         return digits;
 
     }
-    /** 
-    * @Description: 88. 合并两个有序数组
-    * @Param:  
-    * @return:  
-    * @Author: huang 
-    * @Date: 2021/4/11-12:00
-    */
+
+    /**
+     * @Description: 88. 合并两个有序数组
+     * @Param:
+     * @return:
+     * @Author: huang
+     * @Date: 2021/4/11-12:00
+     */
     public void merge(int[] nums1, int m, int[] nums2, int n) {
         int n1 = 0;
         int n2 = 0;
-        int  cur = 0;
+        int cur = 0;
         int[] result = new int[nums1.length];
         while (n1 < m || n2 < n) {
             if (n1 == m) {
@@ -178,22 +184,23 @@ public class Solution {
             } else {
                 cur = nums2[n2++];
             }
-            result[n1+n2-1] = cur;
+            result[n1 + n2 - 1] = cur;
         }
-        System.arraycopy(result,0,nums1,0,nums1.length);
+        System.arraycopy(result, 0, nums1, 0, nums1.length);
 
     }
-    /** 
-    * @Description: 118. 杨辉三角。
-    * @Param:  
-    * @return:  
-    * @Author: huang 
-    * @Date: 2021/4/11-16:02
-    */
+
+    /**
+     * @Description: 118. 杨辉三角。
+     * @Param:
+     * @return:
+     * @Author: huang
+     * @Date: 2021/4/11-16:02
+     */
     public List<List<Integer>> generate(int numRows) {
         List<List<Integer>> ret = new ArrayList<>();
         for (int i = 0; i < numRows; i++) {
-            List<Integer> row  = new ArrayList<>();
+            List<Integer> row = new ArrayList<>();
             for (int j = 0; j <= i; j++) {
                 if (j == 0 || j == i) {
                     row.add(1);
@@ -207,13 +214,13 @@ public class Solution {
         return ret;
     }
 
-    /** 
-    * @Description: 119. 杨辉三角 II 相比上一道题只需要求出保存前一行数组就可以了
-    * @Param:  
-    * @return:  
-    * @Author: huang 
-    * @Date: 2021/4/11-16:09
-    */
+    /**
+     * @Description: 119. 杨辉三角 II 相比上一道题只需要求出保存前一行数组就可以了
+     * @Param:
+     * @return:
+     * @Author: huang
+     * @Date: 2021/4/11-16:09
+     */
     /*public List<Integer> getRow(int rowIndex) {
         List<Integer> pre = new ArrayList<>();
         for (int i = 0; i <= rowIndex; i++) {
@@ -242,13 +249,14 @@ public class Solution {
         }
         return row;
     }
-    /** 
-    * @Description: 121. 买卖股票的最佳时机,贪心算法
-    * @Param:  
-    * @return:  
-    * @Author: huang 
-    * @Date: 2021/4/11-16:54
-    */
+
+    /**
+     * @Description: 121. 买卖股票的最佳时机,贪心算法
+     * @Param:
+     * @return:
+     * @Author: huang
+     * @Date: 2021/4/11-16:54
+     */
 
     public int maxProfit(int[] prices) {
         int sum = 0;
@@ -264,13 +272,14 @@ public class Solution {
         }
         return sum;
     }
-    /** 
-    * @Description: 167. 两数之和 II - 输入有序数组
-    * @Param:  
-    * @return:  
-    * @Author: huang 
-    * @Date: 2021/4/11-17:02
-    */
+
+    /**
+     * @Description: 167. 两数之和 II - 输入有序数组
+     * @Param:
+     * @return:
+     * @Author: huang
+     * @Date: 2021/4/11-17:02
+     */
     /*public int[] twoSum1(int[] numbers, int target) {
         int[] result = new int[2];
         HashMap<Integer, Integer> map = new HashMap<>();
@@ -288,34 +297,35 @@ public class Solution {
     public int[] twoSum1(int[] numbers, int target) {
 
         for (int i = 0; i < numbers.length; i++) {
-            int left =i+1;
-            int right = numbers.length-1;
+            int left = i + 1;
+            int right = numbers.length - 1;
             while (left <= right) {
-                int mid = ((right-left)>>2)+left;
+                int mid = ((right - left) >> 2) + left;
                 if (target - numbers[i] > numbers[mid]) {
-                    left=mid+1;
+                    left = mid + 1;
                 } else if (target - numbers[i] == numbers[mid]) {
                     return new int[]{i, mid};
                 } else {
-                    right = mid-1;
+                    right = mid - 1;
                 }
             }
         }
-        return new int[]{-1,-1};
+        return new int[]{-1, -1};
     }
+
     /**
-    * @Description: 122. 买卖股票的最佳时机 II
-    * @Param:
-    * @return:
-    * @Author: huang
-    * @Date: 2021/4/12-8:44
-    */
+     * @Description: 122. 买卖股票的最佳时机 II
+     * @Param:
+     * @return:
+     * @Author: huang
+     * @Date: 2021/4/12-8:44
+     */
 
     public int maxProfit1(int[] prices) {
         int key = Integer.MAX_VALUE;
         int sum = 0;
         int max = 0;
-        int i =0;
+        int i = 0;
         while (i < prices.length) {
             if (prices[i] < key) {
                 key = prices[i];
@@ -325,8 +335,9 @@ public class Solution {
             }
             i++;
         }
-        return  sum;
+        return sum;
     }
+
     /**
      * @Description: 169. 多数元素
      * @Param:
@@ -350,20 +361,20 @@ public class Solution {
                 count--;
                 if (count == 0) {
                     major = nums[i];
-                    count=1;
+                    count = 1;
                 }
             }
         }
         return major;
     }
-    
-    /** 
-    * @Description: 217. 存在重复元素
-    * @Param:  
-    * @return:  
-    * @Author: huang 
-    * @Date: 2021/4/14-22:31
-    */
+
+    /**
+     * @Description: 217. 存在重复元素
+     * @Param:
+     * @return:
+     * @Author: huang
+     * @Date: 2021/4/14-22:31
+     */
     public boolean containsDuplicate(int[] nums) {
         HashMap<Integer, Integer> map = new HashMap<>();
         boolean result = false;
@@ -377,10 +388,132 @@ public class Solution {
         }
         return result;
     }
-    
 
+    /**
+     * @Description: 219. 存在重复元素 II
+     * @Param:
+     * @return:
+     * @Author: huang
+     * @Date: 2021/4/14-23:40
+     */
+    public boolean containsNearbyDuplicate(int[] nums, int k) {
+        HashMap<Integer, Integer> map = new HashMap<>();
+        boolean result = false;
+        for (int i = 0; i < nums.length; i++) {
+            if (map.containsKey(nums[i])) {
+                if (Math.abs(i - map.get(nums[i])) <= k) {
+
+                    result = true;
+                    break;
+                } else {
+                    map.put(nums[i], i);
+                }
+            } else {
+                map.put(nums[i], i);
+            }
+        }
+        return result;
+    }
+
+    /**
+     * @Description: 228. 汇总区间 没做出来
+     * @Param:
+     * @return:
+     * @Author: huang
+     * @Date: 2021/4/15-7:35
+     */
+    public List<String> summaryRanges(int[] nums) {
+       List<String> list = new ArrayList<>();
+
+       int i = 0;
+        while (i < nums.length) {
+            int left =i;
+            i++;
+            while (i < nums.length && nums[i] - 1 == nums[i - 1]) {
+                i++;
+            }
+            int right = i-1;
+            StringBuilder temp = new StringBuilder(Integer.toString(nums[left]));
+            if (left < right) {
+                temp.append("->");
+                temp.append(nums[right]);
+            }
+            list.add(temp.toString());
+        }
+        return list;
+    }
+    
+    /** 
+    * @Description: 268. 丢失的数字
+    * @Param:  
+    * @return:  
+    * @Author: huang 
+    * @Date: 2021/4/15-10:50
+    */
+    public int missingNumber(int[] nums) {
+        int sum = 0;
+        int sum2=0;
+        for (int i = 0; i < nums.length; i++) {
+            sum+=i;
+            sum2 += nums[i];
+        }
+        return sum+nums.length-sum2;
+
+    }
+    
+    
+    /** 
+    * @Description: 283. 移动零
+    * @Param:  
+    * @return:  
+    * @Author: huang 
+    * @Date: 2021/4/15-13:04
+    */
+    //自己写的
+    public void moveZeroes(int[] nums) {
+        int i =0;
+        int j = 0;
+        for (int k = 0; k < nums.length; k++) {
+            if (nums[k] == 0) {
+                i = k;
+                break;
+            }
+        }
+        for (int k = 0; k < nums.length; k++) {
+            if (nums[k] != 0 && k > i) {
+                j=k;
+                break;
+            }
+        }
+        while (j<nums.length) {
+            if (nums[i] == 0 && nums[j] != 0&&j>i) {
+                int temp = nums[j];
+                nums[i] = temp;
+                nums[j] = 0;
+                j = i;
+                i = j + 1;
+            } else {
+                j++;
+            }
+        }
+    }
+    //官方
+    /*public void moveZeroes(int[] nums) {
+        int i =0;
+        int j = 0;
+        while (j < nums.length) {
+            if (nums[j] != 0) {
+                int temp = nums[j];
+                nums[j] =nums[i];
+                nums[i] = temp;
+                i++;
+            }
+            j++;
+        }
+        System.out.println("ok");
+    }*/
     public static void main(String[] args) {
         Solution solution = new Solution();
-        solution.containsDuplicate(new int[]{1,2,3,4});
+        solution.moveZeroes(new int[]{0,1,0,3,12});
     }
 }
