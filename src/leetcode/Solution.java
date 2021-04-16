@@ -421,16 +421,16 @@ public class Solution {
      * @Date: 2021/4/15-7:35
      */
     public List<String> summaryRanges(int[] nums) {
-       List<String> list = new ArrayList<>();
+        List<String> list = new ArrayList<>();
 
-       int i = 0;
+        int i = 0;
         while (i < nums.length) {
-            int left =i;
+            int left = i;
             i++;
             while (i < nums.length && nums[i] - 1 == nums[i - 1]) {
                 i++;
             }
-            int right = i-1;
+            int right = i - 1;
             StringBuilder temp = new StringBuilder(Integer.toString(nums[left]));
             if (left < right) {
                 temp.append("->");
@@ -440,36 +440,36 @@ public class Solution {
         }
         return list;
     }
-    
-    /** 
-    * @Description: 268. 丢失的数字
-    * @Param:  
-    * @return:  
-    * @Author: huang 
-    * @Date: 2021/4/15-10:50
-    */
+
+    /**
+     * @Description: 268. 丢失的数字
+     * @Param:
+     * @return:
+     * @Author: huang
+     * @Date: 2021/4/15-10:50
+     */
     public int missingNumber(int[] nums) {
         int sum = 0;
-        int sum2=0;
+        int sum2 = 0;
         for (int i = 0; i < nums.length; i++) {
-            sum+=i;
+            sum += i;
             sum2 += nums[i];
         }
-        return sum+nums.length-sum2;
+        return sum + nums.length - sum2;
 
     }
-    
-    
-    /** 
-    * @Description: 283. 移动零
-    * @Param:  
-    * @return:  
-    * @Author: huang 
-    * @Date: 2021/4/15-13:04
-    */
+
+
+    /**
+     * @Description: 283. 移动零
+     * @Param:
+     * @return:
+     * @Author: huang
+     * @Date: 2021/4/15-13:04
+     */
     //自己写的
     public void moveZeroes(int[] nums) {
-        int i =0;
+        int i = 0;
         int j = 0;
         for (int k = 0; k < nums.length; k++) {
             if (nums[k] == 0) {
@@ -479,12 +479,12 @@ public class Solution {
         }
         for (int k = 0; k < nums.length; k++) {
             if (nums[k] != 0 && k > i) {
-                j=k;
+                j = k;
                 break;
             }
         }
-        while (j<nums.length) {
-            if (nums[i] == 0 && nums[j] != 0&&j>i) {
+        while (j < nums.length) {
+            if (nums[i] == 0 && nums[j] != 0 && j > i) {
                 int temp = nums[j];
                 nums[i] = temp;
                 nums[j] = 0;
@@ -510,39 +510,39 @@ public class Solution {
         }
         System.out.println("ok");
     }*/
-    
-    /** 
-    * @Description: 414. 第三大的数
-    * @Param:  
-    * @return:  
-    * @Author: huang 
-    * @Date: 2021/4/15-16:50
-    */
+
+    /**
+     * @Description: 414. 第三大的数
+     * @Param:
+     * @return:
+     * @Author: huang
+     * @Date: 2021/4/15-16:50
+     */
     public int thirdMax(int[] nums) {
         PriorityQueue<Integer> priorityQueue = new PriorityQueue<>(3);
         for (int i = 0; i < nums.length; i++) {
-            if (priorityQueue.size() < 3&&!priorityQueue.contains(nums[i])) {
+            if (priorityQueue.size() < 3 && !priorityQueue.contains(nums[i])) {
                 priorityQueue.offer(nums[i]);
-            } else if (priorityQueue.peek() < nums[i]&&!priorityQueue.contains(nums[i])) {
+            } else if (priorityQueue.peek() < nums[i] && !priorityQueue.contains(nums[i])) {
                 priorityQueue.poll();
                 priorityQueue.add(nums[i]);
             }
         }
         if (priorityQueue.size() < 3) {
-            for (int i = 0; i < priorityQueue.size()-1; i++) {
+            for (int i = 0; i < priorityQueue.size() - 1; i++) {
                 priorityQueue.poll();
             }
         }
         return priorityQueue.peek();
     }
-    
-    /** 
-    * @Description: 448. 找到所有数组中消失的数字
-    * @Param:  
-    * @return:  
-    * @Author: huang 
-    * @Date: 2021/4/15-23:42
-    */
+
+    /**
+     * @Description: 448. 找到所有数组中消失的数字
+     * @Param:
+     * @return:
+     * @Author: huang
+     * @Date: 2021/4/15-23:42
+     */
     public List<Integer> findDisappearedNumbers(int[] nums) {
         HashMap<Integer, Integer> map = new HashMap<>();
         List<Integer> list = new ArrayList<>();
@@ -563,23 +563,24 @@ public class Solution {
     public List<Integer> findDisappearedNumbers1(int[] nums) {
         List<Integer> list = new ArrayList<>();
         for (int i = 0; i < nums.length; i++) {
-            int x = (nums[i]-1)%nums.length;
-            nums[x]+=nums.length;
+            int x = (nums[i] - 1) % nums.length;
+            nums[x] += nums.length;
         }
         for (int i = 0; i < nums.length; i++) {
             if (nums[i] <= nums.length) {
-                list.add(i+1);
+                list.add(i + 1);
             }
         }
         return list;
     }
-    /** 
-    * @Description: 485. 最大连续 1 的个数
-    * @Param:  
-    * @return:  
-    * @Author: huang 
-    * @Date: 2021/4/16-13:46
-    */
+
+    /**
+     * @Description: 485. 最大连续 1 的个数
+     * @Param:
+     * @return:
+     * @Author: huang
+     * @Date: 2021/4/16-13:46
+     */
     public int findMaxConsecutiveOnes(int[] nums) {
         int max = 0;
         int current = 0;
@@ -587,20 +588,20 @@ public class Solution {
             if (nums[i] == 1) {
                 current++;
             } else {
-                max=Math.max(max, current);
-                current=0;
+                max = Math.max(max, current);
+                current = 0;
             }
         }
-        return max>current?max:current;
+        return max > current ? max : current;
     }
-    
-    /** 
-    * @Description: 561. 数组拆分 I
-    * @Param:  
-    * @return:  
-    * @Author: huang 
-    * @Date: 2021/4/16-15:43
-    */
+
+    /**
+     * @Description: 561. 数组拆分 I
+     * @Param:
+     * @return:
+     * @Author: huang
+     * @Date: 2021/4/16-15:43
+     */
 
     public int arrayPairSum(int[] nums) {
         Arrays.sort(nums);
@@ -608,18 +609,18 @@ public class Solution {
         int sum = 0;
         while (i < nums.length) {
             sum += Math.min(nums[i], nums[i + 1]);
-            i = i+2;
+            i = i + 2;
         }
         return sum;
     }
-    
-    /** 
-    * @Description: 566. 重塑矩阵
-    * @Param:  
-    * @return:  
-    * @Author: huang 
-    * @Date: 2021/4/16-15:54
-    */
+
+    /**
+     * @Description: 566. 重塑矩阵
+     * @Param:
+     * @return:
+     * @Author: huang
+     * @Date: 2021/4/16-15:54
+     */
     public int[][] matrixReshape(int[][] nums, int r, int c) {
         int x = nums.length;
         int y = nums[0].length;
@@ -642,6 +643,7 @@ public class Solution {
         }
         return result;
     }
+
     //官方方法
     //知识点：首先将矩阵转换成一维数组。可以知道元素的下标。在矩阵当中，知道一个元素的下标和矩阵大小就可以知道元素的位置（坐标）。
     //元素的坐标等于（index/矩阵的列的个数，index%列的个数）
@@ -658,8 +660,107 @@ public class Solution {
         }
         return ans;
     }
+
+    /**
+     * @Description:
+     * @Param:
+     * @return:
+     * @Author: huang
+     * @Date: 2021/4/16-16:46
+     */
+    public boolean canPlaceFlowers(int[] flowerbed, int n) {
+        return true;
+    }
+
+    /**
+     * @Description: 628. 三个数的最大乘积
+     * @Param:
+     * @return:
+     * @Author: huang
+     * @Date: 2021/4/16-17:40
+     */
+    public int maximumProduct(int[] nums) {
+        Arrays.sort(nums);
+        int i = nums.length - 1;
+        int ans1 = nums[i] * nums[i - 1] * nums[i - 2];
+        int ans2 = nums[0] * nums[1] * nums[i];
+        return Math.max(ans1, ans2);
+    }
+
+    /**
+     * @Description: 643. 子数组最大平均数 I
+     * @Param:
+     * @return:
+     * @Author: huang
+     * @Date: 2021/4/16-18:24
+     */
+
+    public double findMaxAverage(int[] nums, int k) {
+        int max = 0;
+        int current = 0;
+        for (int i = 0; i < k; i++) {
+            current += nums[i];
+        }
+        max = current;
+        for (int i = 0; i < nums.length - k; i++) {
+            current = current + nums[i + k] - nums[i];
+            max = Math.max(max, current);
+        }
+        return (double) max / k;
+    }
+
+    /**
+     * @Description: 661. 图片平滑器
+     * @Param:
+     * @return:
+     * @Author: huang
+     * @Date: 2021/4/16-18:59
+     */
+    public int[][] imageSmoother(int[][] M) {
+        int rows = M.length;
+        int cols = M[0].length;
+        int[][] result = new int[rows][cols];
+        int allCounts = rows * cols;
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                int count=0;
+                for (int ni = i-1; ni <=i+1; ni++) {
+                    for (int nj = j-1; nj <=j+1; nj++) {
+                        if (ni >= 0 && nj >= 0 && ni < rows && nj < cols) {
+                            result[i][j] += M[ni][nj];
+                            count++;
+                        }
+                    }
+                }
+                result[i][j]/=count;
+            }
+        }
+        return result;
+    }
+
+
+    /**
+    * @Description: 665. 非递减数列
+    * @Param:
+    * @return:
+    * @Author: huang
+    * @Date: 2021/4/16-19:31
+    */
+    public boolean checkPossibility(int[] nums) {
+        int min = Integer.MIN_VALUE;
+        int count = 0;
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] <= nums[i + 1]) {
+                min = nums[i];
+            } else {
+                if (nums[i + 1] < min) {
+                    count++;
+                }
+            }
+        }
+    }
     public static void main(String[] args) {
         Solution solution = new Solution();
-        solution.matrixReshape(new int[][]{{1,2},{3,4}},1,4);
+        solution.findMaxAverage(new int[]{1, 12, -5, -6, 50, 3}, 4);
     }
 }
