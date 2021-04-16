@@ -581,10 +581,85 @@ public class Solution {
     * @Date: 2021/4/16-13:46
     */
     public int findMaxConsecutiveOnes(int[] nums) {
+        int max = 0;
+        int current = 0;
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] == 1) {
+                current++;
+            } else {
+                max=Math.max(max, current);
+                current=0;
+            }
+        }
+        return max>current?max:current;
+    }
+    
+    /** 
+    * @Description: 561. 数组拆分 I
+    * @Param:  
+    * @return:  
+    * @Author: huang 
+    * @Date: 2021/4/16-15:43
+    */
 
+    public int arrayPairSum(int[] nums) {
+        Arrays.sort(nums);
+        int i = 0;
+        int sum = 0;
+        while (i < nums.length) {
+            sum += Math.min(nums[i], nums[i + 1]);
+            i = i+2;
+        }
+        return sum;
+    }
+    
+    /** 
+    * @Description: 566. 重塑矩阵
+    * @Param:  
+    * @return:  
+    * @Author: huang 
+    * @Date: 2021/4/16-15:54
+    */
+    public int[][] matrixReshape(int[][] nums, int r, int c) {
+        int x = nums.length;
+        int y = nums[0].length;
+        if (x * y != r * c) {
+            return nums;
+        }
+        int[][] result = new int[r][c];
+        List<Integer> list = new ArrayList<>();
+        for (int i = 0; i < x; i++) {
+            for (int j = 0; j < y; j++) {
+                list.add(nums[i][j]);
+            }
+        }
+        int k = 0;
+        for (int i = 0; i < r; i++) {
+            for (int j = 0; j < c; j++) {
+                result[i][j] = list.get(k);
+                k++;
+            }
+        }
+        return result;
+    }
+    //官方方法
+    //知识点：首先将矩阵转换成一维数组。可以知道元素的下标。在矩阵当中，知道一个元素的下标和矩阵大小就可以知道元素的位置（坐标）。
+    //元素的坐标等于（index/矩阵的列的个数，index%列的个数）
+    public int[][] matrixReshape1(int[][] nums, int r, int c) {
+        int m = nums.length;
+        int n = nums[0].length;
+        if (m * n != r * c) {
+            return nums;
+        }
+
+        int[][] ans = new int[r][c];
+        for (int x = 0; x < m * n; ++x) {
+            ans[x / c][x % c] = nums[x / n][x % n];
+        }
+        return ans;
     }
     public static void main(String[] args) {
         Solution solution = new Solution();
-        solution.findDisappearedNumbers1(new int[]{4,3,2,7,8,2,3,1});
+        solution.matrixReshape(new int[][]{{1,2},{3,4}},1,4);
     }
 }
