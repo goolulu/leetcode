@@ -1,8 +1,6 @@
 package dfa;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author huangrn
@@ -512,8 +510,81 @@ public class Solution {
         }
         System.out.println("ok");
     }*/
+    
+    /** 
+    * @Description: 414. 第三大的数
+    * @Param:  
+    * @return:  
+    * @Author: huang 
+    * @Date: 2021/4/15-16:50
+    */
+    public int thirdMax(int[] nums) {
+        PriorityQueue<Integer> priorityQueue = new PriorityQueue<>(3);
+        for (int i = 0; i < nums.length; i++) {
+            if (priorityQueue.size() < 3&&!priorityQueue.contains(nums[i])) {
+                priorityQueue.offer(nums[i]);
+            } else if (priorityQueue.peek() < nums[i]&&!priorityQueue.contains(nums[i])) {
+                priorityQueue.poll();
+                priorityQueue.add(nums[i]);
+            }
+        }
+        if (priorityQueue.size() < 3) {
+            for (int i = 0; i < priorityQueue.size()-1; i++) {
+                priorityQueue.poll();
+            }
+        }
+        return priorityQueue.peek();
+    }
+    
+    /** 
+    * @Description: 448. 找到所有数组中消失的数字
+    * @Param:  
+    * @return:  
+    * @Author: huang 
+    * @Date: 2021/4/15-23:42
+    */
+    public List<Integer> findDisappearedNumbers(int[] nums) {
+        HashMap<Integer, Integer> map = new HashMap<>();
+        List<Integer> list = new ArrayList<>();
+        for (int i = 0; i < nums.length; i++) {
+            if (!map.containsKey(nums[i])) {
+                map.put(nums[i], i);
+            }
+        }
+        for (int i = 1; i <= nums.length; i++) {
+            if (!map.containsKey(i)) {
+                list.add(i);
+            }
+        }
+        return list;
+    }
+
+    //官方方法
+    public List<Integer> findDisappearedNumbers1(int[] nums) {
+        List<Integer> list = new ArrayList<>();
+        for (int i = 0; i < nums.length; i++) {
+            int x = (nums[i]-1)%nums.length;
+            nums[x]+=nums.length;
+        }
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] <= nums.length) {
+                list.add(i+1);
+            }
+        }
+        return list;
+    }
+    /** 
+    * @Description: 485. 最大连续 1 的个数
+    * @Param:  
+    * @return:  
+    * @Author: huang 
+    * @Date: 2021/4/16-13:46
+    */
+    public int findMaxConsecutiveOnes(int[] nums) {
+
+    }
     public static void main(String[] args) {
         Solution solution = new Solution();
-        solution.moveZeroes(new int[]{0,1,0,3,12});
+        solution.findDisappearedNumbers1(new int[]{4,3,2,7,8,2,3,1});
     }
 }
