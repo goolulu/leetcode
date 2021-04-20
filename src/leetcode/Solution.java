@@ -723,16 +723,16 @@ public class Solution {
         int allCounts = rows * cols;
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
-                int count=0;
-                for (int ni = i-1; ni <=i+1; ni++) {
-                    for (int nj = j-1; nj <=j+1; nj++) {
+                int count = 0;
+                for (int ni = i - 1; ni <= i + 1; ni++) {
+                    for (int nj = j - 1; nj <= j + 1; nj++) {
                         if (ni >= 0 && nj >= 0 && ni < rows && nj < cols) {
                             result[i][j] += M[ni][nj];
                             count++;
                         }
                     }
                 }
-                result[i][j]/=count;
+                result[i][j] /= count;
             }
         }
         return result;
@@ -740,27 +740,374 @@ public class Solution {
 
 
     /**
-    * @Description: 665. 非递减数列
-    * @Param:
-    * @return:
-    * @Author: huang
-    * @Date: 2021/4/16-19:31
-    */
-    public boolean checkPossibility(int[] nums) {
-        int min = Integer.MIN_VALUE;
-        int count = 0;
-        for (int i = 0; i < nums.length; i++) {
-            if (nums[i] <= nums[i + 1]) {
-                min = nums[i];
+     * @Description: 665. 非递减数列
+     * @Param:
+     * @return:
+     * @Author: huang
+     * @Date: 2021/4/16-19:31
+     */
+
+
+    /**
+     * @Description: 674. 最长连续递增序列
+     * @Param:
+     * @return:
+     * @Author: huang
+     * @Date: 2021/4/17-20:04
+     */
+    public int findLengthOfLCIS(int[] nums) {
+        if (nums.length == 0) {
+            return 0;
+        }
+        int max = 0;
+        int current = 1;
+        for (int i = 0; i < nums.length - 1; i++) {
+            if (nums[i] < nums[i + 1]) {
+                current++;
             } else {
-                if (nums[i + 1] < min) {
+                max = Math.max(max, current);
+                current = 1;
+            }
+        }
+        return Math.max(max, current);
+    }
+
+    /**
+     * @Description: 697. 数组的度 (超时)
+     * @Param:
+     * @return:
+     * @Author: huang
+     * @Date: 2021/4/17-20:14
+     */
+    public int findShortestSubArray(int[] nums) {
+        int min = 1;
+        int len = 1;
+        int right = 0;
+        int precount = 0;
+        int count = 1;
+        for (int i = 0; i < nums.length - 1; i++) {
+            right = i;
+            for (int j = i + 1; j < nums.length; j++) {
+                if (nums[j] == nums[i]) {
                     count++;
+                    right = j;
+                }
+            }
+            if (count > precount) {
+                precount = count;
+                len = right - i + 1;
+                min = len;
+            } else if (count == precount) {
+                if (min > right - i + 1) {
+                    min = right - i + 1;
+                }
+            }
+            count = 1;
+            len = 1;
+        }
+        return min;
+    }
+
+    //官方方法
+    public int findShortestSubArray1(int[] nums) {
+        HashMap<Integer, int[]> map = new HashMap<>();
+        for (int i = 0; i < nums.length; i++) {
+            if (map.containsKey(nums[i])) {
+                map.get(nums[i])[0]++;
+                map.get(nums[i])[2] = i;
+            } else {
+                map.put(nums[i], new int[]{1, i, i});
+            }
+        }
+        int maxNum = 0;
+        int len = 0;
+        for (Map.Entry<Integer, int[]> entry : map.entrySet()) {
+            int[] array = entry.getValue();
+            if (maxNum < array[0]) {
+                maxNum = array[0];
+                len = array[2] - array[1] + 1;
+            } else if (maxNum == array[0]) {
+                if (len > array[2] - array[1] + 1) {
+                    len = array[2] - array[1] + 1;
                 }
             }
         }
+        return len;
+    }
+
+    /**
+     * @Description: 724. 寻找数组的中心下标 前缀和
+     * @Param:
+     * @return:
+     * @Author: huang
+     * @Date: 2021/4/18-16:11
+     */
+    public int pivotIndex(int[] nums) {
+        int total = Arrays.stream(nums).sum();
+        int sum = 0;
+        for (int i = 0; i < nums.length; i++) {
+            if (total == 2 * sum + nums[i]) {
+                return i;
+            }
+            sum += nums[i];
+        }
+        return -1;
+    }
+
+    /**
+     * @Description:746. 使用最小花费爬楼梯
+     * @Param:
+     * @return:
+     * @Author: huang
+     * @Date: 2021/4/18-17:38
+     */
+    public int minCostClimbingStairs(int[] cost) {
+        int index = 0;
+        int sum = 0;
+        while (index < cost.length - 2) {
+            if (cost[index] < cost[index + 1]) {
+                sum += cost[index];
+            } else {
+                sum += cost[index + 1];
+                index++;
+            }
+            index++;
+        }
+        return sum;
+    }
+
+    /**
+     * @Description: 747. 至少是其他数字两倍的最大数
+     * @Param:
+     * @return:
+     * @Author: huang
+     * @Date: 2021/4/18-19:01
+     */
+    public int dominantIndex(int[] nums) {
+
+        int maxIndex = 0;
+        for (int i = 0; i < nums.length; ++i) {
+            if (nums[i] > nums[maxIndex])
+                maxIndex = i;
+        }
+        for (int i = 0; i < nums.length; ++i) {
+            if (maxIndex != i && nums[maxIndex] < 2 * nums[i])
+                return -1;
+        }
+        return maxIndex;
+    }
+
+    /**
+     * @Description: 766. 托普利茨矩阵
+     * @Param:
+     * @return:
+     * @Author: huang
+     * @Date: 2021/4/20-11:00
+     */
+
+    public boolean isToeplitzMatrix(int[][] matrix) {
+        int rows = matrix.length - 1;
+        boolean result = false;
+        int cols = matrix[0].length - 1;
+        int x = rows;
+        int y = 0;
+        while (x >= 0 && y <= cols) {
+            int m = x;
+            int n =y;
+            while (m <= rows-1 && n <= cols-1) {
+                if (matrix[m][n] == matrix[m + 1][n + 1]) {
+                    m++;
+                    n++;
+                } else {
+                    return false;
+                }
+            }
+            if (x != 0) {
+                x--;
+            }else {
+                y++;
+            }
+        }
+        return true;
+    }
+
+    //官方方法 优点：不用把每一条斜线确定，只要确定每一个元素的斜边的下一个相等
+    public boolean isToeplitzMatrix1(int[][] matrix) {
+        int m = matrix.length, n = matrix[0].length;
+        for (int i = 1; i < m; i++) {
+            for (int j = 1; j < n; j++) {
+                if (matrix[i][j] != matrix[i - 1][j - 1]) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    
+    /** 
+    * @Description: 830. 较大分组的位置
+    * @Param:  
+    * @return:  
+    * @Author: huang 
+    * @Date: 2021/4/20-13:33
+    */
+
+    public List<List<Integer>> largeGroupPositions(String s) {
+        List<List<Integer>> lists = new ArrayList<>();
+        char [] chars = s.toCharArray();
+        int left = 0;
+        int right = 0;
+        for (int i = 0; i < chars.length; i++) {
+            if (chars[i] == chars[left]) {
+                right = i ;
+            } else {
+                if (right - left >= 2) {
+                    List<Integer> list = new ArrayList<>();
+                    list.add(left);
+                    list.add(right);
+                    lists.add(list);
+                }
+                left =i;
+            }
+            if (right == chars.length - 1) {
+                if (right - left >= 2) {
+                    List<Integer> list = new ArrayList<>();
+                    list.add(left);
+                    list.add(right);
+                    lists.add(list);
+                }
+            }
+        }
+
+        return lists;
+    }
+    public List<List<Integer>> largeGroupPositions1(String s) {
+        List<List<Integer>> ret = new ArrayList<List<Integer>>();
+        int n = s.length();
+        int num = 1;
+        for (int i = 0; i < n; i++) {
+            if (i == n - 1 || s.charAt(i) != s.charAt(i + 1)) {
+                if (num >= 3) {
+                    ret.add(Arrays.asList(i - num + 1, i));
+                }
+                num = 1;
+            } else {
+                num++;
+            }
+        }
+        return ret;
+    }
+    
+    /** 
+    * @Description: 867. 转置矩阵
+    * @Param:  
+    * @return:  
+    * @Author: huang 
+    * @Date: 2021/4/20-14:14
+    */
+
+    public int[][] transpose(int[][] matrix) {
+        int rows = matrix.length;
+        int cols = matrix[0].length;
+        int[][] res = new int[cols][rows];
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                res[j][i] = matrix[i][j];
+            }
+        }
+
+
+        return res;
+    }
+    
+    /** 
+    * @Description: 888. 公平的糖果棒交换
+    * @Param:  
+    * @return:  
+    * @Author: huang 
+    * @Date: 2021/4/20-15:01
+    */
+    public int[] fairCandySwap(int[] A, int[] B) {
+        int aSum = Arrays.stream(A).sum();
+        int bSum = Arrays.stream(B).sum();
+        int k = (aSum + bSum) / 2;
+        int a = aSum-k;
+        int b =bSum-k;
+        HashMap<Integer, Integer> aMap = new HashMap<>();
+        for (int i = 0;i < A.length;i++) {
+            aMap.put(A[i], A[i] - a);
+        }
+        for (int j = 0; j < B.length; j++) {
+            if (aMap.containsValue(B[j])) {
+                return new int[]{B[j] - b, B[j]};
+            }
+        }
+        return new int[]{a, b};
+    }
+    //官方方法
+    public int[] fairCandySwap1(int[] A, int[] B) {
+        int aSum = Arrays.stream(A).sum();
+        int bSum = Arrays.stream(B).sum();
+        int k = (aSum - bSum) / 2;
+        Set<Integer> aMap = new HashSet<>();
+        for (int i = 0;i < A.length;i++) {
+            aMap.add(A[i]);
+        }
+        for (int y : B) {
+            int x = y+k;
+            if (aMap.contains(x)) {
+                return new int[]{x, y};
+            }
+        }
+        return null;
+    }
+    
+    /** 
+    * @Description: 896. 单调数列
+    * @Param:  
+    * @return:  
+    * @Author: huang 
+    * @Date: 2021/4/20-15:51
+    */
+    public boolean isMonotonic(int[] A) {
+
+        boolean a = true;
+        boolean b = true;
+        for (int i = 0; i < A.length-1; i++) {
+            if (A[i] <= A[i + 1]) {
+
+            } else {
+                a = false;
+                break;
+            }
+        }
+        for (int i = 0; i < A.length-1; i++) {
+            if (A[i] >= A[i + 1]) {
+
+            } else {
+                b = false;
+                break;
+            }
+        }
+        return a||b;
+
+    }
+    //官方方法 优化了我的方法
+    public boolean isMonotonic1(int[] A) {
+        boolean a = true;
+        boolean b = true;
+        for (int i = 0; i < A.length-1; i++) {
+            if (A[i] < A[i + 1]) {
+                a = false;
+            }
+            if (A[i]>A[i+1]){
+                b = false;
+            }
+        }
+        return a||b;
     }
     public static void main(String[] args) {
-        Solution solution = new Solution();
-        solution.findMaxAverage(new int[]{1, 12, -5, -6, 50, 3}, 4);
+        Solution s = new Solution();
+        System.out.println(s.isMonotonic(new int[]{1,1,1}));
     }
 }
