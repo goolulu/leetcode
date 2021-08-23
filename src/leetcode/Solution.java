@@ -1,5 +1,6 @@
 package leetcode;
 
+import javax.swing.tree.TreeNode;
 import java.util.*;
 
 /**
@@ -913,8 +914,8 @@ public class Solution {
         int y = 0;
         while (x >= 0 && y <= cols) {
             int m = x;
-            int n =y;
-            while (m <= rows-1 && n <= cols-1) {
+            int n = y;
+            while (m <= rows - 1 && n <= cols - 1) {
                 if (matrix[m][n] == matrix[m + 1][n + 1]) {
                     m++;
                     n++;
@@ -924,7 +925,7 @@ public class Solution {
             }
             if (x != 0) {
                 x--;
-            }else {
+            } else {
                 y++;
             }
         }
@@ -943,23 +944,23 @@ public class Solution {
         }
         return true;
     }
-    
-    /** 
-    * @Description: 830. 较大分组的位置
-    * @Param:  
-    * @return:  
-    * @Author: huang 
-    * @Date: 2021/4/20-13:33
-    */
+
+    /**
+     * @Description: 830. 较大分组的位置
+     * @Param:
+     * @return:
+     * @Author: huang
+     * @Date: 2021/4/20-13:33
+     */
 
     public List<List<Integer>> largeGroupPositions(String s) {
         List<List<Integer>> lists = new ArrayList<>();
-        char [] chars = s.toCharArray();
+        char[] chars = s.toCharArray();
         int left = 0;
         int right = 0;
         for (int i = 0; i < chars.length; i++) {
             if (chars[i] == chars[left]) {
-                right = i ;
+                right = i;
             } else {
                 if (right - left >= 2) {
                     List<Integer> list = new ArrayList<>();
@@ -967,7 +968,7 @@ public class Solution {
                     list.add(right);
                     lists.add(list);
                 }
-                left =i;
+                left = i;
             }
             if (right == chars.length - 1) {
                 if (right - left >= 2) {
@@ -981,6 +982,7 @@ public class Solution {
 
         return lists;
     }
+
     public List<List<Integer>> largeGroupPositions1(String s) {
         List<List<Integer>> ret = new ArrayList<List<Integer>>();
         int n = s.length();
@@ -997,14 +999,14 @@ public class Solution {
         }
         return ret;
     }
-    
-    /** 
-    * @Description: 867. 转置矩阵
-    * @Param:  
-    * @return:  
-    * @Author: huang 
-    * @Date: 2021/4/20-14:14
-    */
+
+    /**
+     * @Description: 867. 转置矩阵
+     * @Param:
+     * @return:
+     * @Author: huang
+     * @Date: 2021/4/20-14:14
+     */
 
     public int[][] transpose(int[][] matrix) {
         int rows = matrix.length;
@@ -1019,22 +1021,22 @@ public class Solution {
 
         return res;
     }
-    
-    /** 
-    * @Description: 888. 公平的糖果棒交换
-    * @Param:  
-    * @return:  
-    * @Author: huang 
-    * @Date: 2021/4/20-15:01
-    */
+
+    /**
+     * @Description: 888. 公平的糖果棒交换
+     * @Param:
+     * @return:
+     * @Author: huang
+     * @Date: 2021/4/20-15:01
+     */
     public int[] fairCandySwap(int[] A, int[] B) {
         int aSum = Arrays.stream(A).sum();
         int bSum = Arrays.stream(B).sum();
         int k = (aSum + bSum) / 2;
-        int a = aSum-k;
-        int b =bSum-k;
+        int a = aSum - k;
+        int b = bSum - k;
         HashMap<Integer, Integer> aMap = new HashMap<>();
-        for (int i = 0;i < A.length;i++) {
+        for (int i = 0; i < A.length; i++) {
             aMap.put(A[i], A[i] - a);
         }
         for (int j = 0; j < B.length; j++) {
@@ -1044,36 +1046,37 @@ public class Solution {
         }
         return new int[]{a, b};
     }
+
     //官方方法
     public int[] fairCandySwap1(int[] A, int[] B) {
         int aSum = Arrays.stream(A).sum();
         int bSum = Arrays.stream(B).sum();
         int k = (aSum - bSum) / 2;
         Set<Integer> aMap = new HashSet<>();
-        for (int i = 0;i < A.length;i++) {
+        for (int i = 0; i < A.length; i++) {
             aMap.add(A[i]);
         }
         for (int y : B) {
-            int x = y+k;
+            int x = y + k;
             if (aMap.contains(x)) {
                 return new int[]{x, y};
             }
         }
         return null;
     }
-    
-    /** 
-    * @Description: 896. 单调数列
-    * @Param:  
-    * @return:  
-    * @Author: huang 
-    * @Date: 2021/4/20-15:51
-    */
+
+    /**
+     * @Description: 896. 单调数列
+     * @Param:
+     * @return:
+     * @Author: huang
+     * @Date: 2021/4/20-15:51
+     */
     public boolean isMonotonic(int[] A) {
 
         boolean a = true;
         boolean b = true;
-        for (int i = 0; i < A.length-1; i++) {
+        for (int i = 0; i < A.length - 1; i++) {
             if (A[i] <= A[i + 1]) {
 
             } else {
@@ -1081,7 +1084,7 @@ public class Solution {
                 break;
             }
         }
-        for (int i = 0; i < A.length-1; i++) {
+        for (int i = 0; i < A.length - 1; i++) {
             if (A[i] >= A[i + 1]) {
 
             } else {
@@ -1089,25 +1092,77 @@ public class Solution {
                 break;
             }
         }
-        return a||b;
+        return a || b;
 
     }
+
     //官方方法 优化了我的方法
     public boolean isMonotonic1(int[] A) {
         boolean a = true;
         boolean b = true;
-        for (int i = 0; i < A.length-1; i++) {
+        for (int i = 0; i < A.length - 1; i++) {
             if (A[i] < A[i + 1]) {
                 a = false;
             }
-            if (A[i]>A[i+1]){
+            if (A[i] > A[i + 1]) {
                 b = false;
             }
         }
-        return a||b;
+        return a || b;
     }
+
+    /**
+     * 剑指 Offer II 055. 二叉搜索树迭代器
+     */
+    class BSTIterator {
+        TreeNode root;
+        int index;
+        List<Integer> list;
+        public BSTIterator(TreeNode root) {
+            list = new ArrayList<>();
+            this.root = root;
+            bst(this.root);
+            index = 0;
+        }
+
+        public int next() {
+            int res = 0;
+            if (index < list.size()) {
+                res = list.get(index);
+            }
+            index++;
+            return res;
+        }
+
+        public boolean hasNext() {
+            if (index >= list.size() || list.size() == 0) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        public void bst(TreeNode root) {
+            Stack<TreeNode> stack = new Stack<>();
+            while (root != null || !stack.isEmpty()) {
+                if (root != null) {
+                    stack.add(root);
+                    root = root.left;
+                } else {
+                    root = stack.pop();
+                    list.add(root.val);
+                    root = root.right;
+                }
+            }
+        }
+    }
+
+    public TreeNode constructMaximumBinaryTree(int[] nums) {
+
+    }
+
     public static void main(String[] args) {
         Solution s = new Solution();
-        System.out.println(s.isMonotonic(new int[]{1,1,1}));
+        System.out.println(s.isMonotonic(new int[]{1, 1, 1}));
     }
 }
