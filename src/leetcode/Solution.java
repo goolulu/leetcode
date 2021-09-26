@@ -1111,58 +1111,69 @@ public class Solution {
         return a || b;
     }
 
-    /**
-     * 剑指 Offer II 055. 二叉搜索树迭代器
-     */
-    class BSTIterator {
-        TreeNode root;
-        int index;
-        List<Integer> list;
-        public BSTIterator(TreeNode root) {
-            list = new ArrayList<>();
-            this.root = root;
-            bst(this.root);
-            index = 0;
-        }
 
-        public int next() {
-            int res = 0;
-            if (index < list.size()) {
-                res = list.get(index);
-            }
-            index++;
-            return res;
-        }
 
-        public boolean hasNext() {
-            if (index >= list.size() || list.size() == 0) {
-                return false;
-            } else {
-                return true;
+    public int findMaxNum(int[] nums, int left, int right) {
+        int max = Integer.MIN_VALUE;
+        int index = 0;
+        for (int i = left; i <= right; i++) {
+            if (nums[i] > max) {
+                max = nums[i];
+                index = i;
             }
         }
-
-        public void bst(TreeNode root) {
-            Stack<TreeNode> stack = new Stack<>();
-            while (root != null || !stack.isEmpty()) {
-                if (root != null) {
-                    stack.add(root);
-                    root = root.left;
-                } else {
-                    root = stack.pop();
-                    list.add(root.val);
-                    root = root.right;
-                }
-            }
-        }
+        return index;
     }
 
-    public TreeNode constructMaximumBinaryTree(int[] nums) {
+     static class ListNode {
+        int val;
+        ListNode next;
+        ListNode() {}
+        ListNode(int val) { this.val = val; }
+        ListNode(int val, ListNode next) { this.val = val; this.next = next; }
 
+         @Override
+         public String toString() {
+             return "ListNode{" +
+                     "val=" + val +
+                     ", next=" + next +
+                     '}';
+         }
+     }
+
+    public void reorderList(ListNode head) {
+        Deque<Integer> deque = new ArrayDeque<>();
+        ListNode node = head;
+        while (node != null) {
+
+            deque.addFirst(node.val);
+            node = node.next;
+        }
+        //true 从下面开始，false 从上面开始
+        boolean flag = false;
+        deque.pollLast();
+        ListNode node1 = head;
+        while (deque.size() > 0) {
+            ListNode temp = node1.next;
+            if (flag) {
+                temp.val = deque.pollLast();
+                flag = false;
+            } else {
+                temp.val = deque.pollFirst();
+                flag = true;
+            }
+            node1 = temp;
+        }
+
+        System.out.println(head);
     }
 
     public static void main(String[] args) {
         Solution s = new Solution();
-        System.out.println(s.isMonotonic(new int[]{1, 1, 1}));
+
+        ListNode head = new ListNode(1,new ListNode(2,new ListNode(3,new ListNode(4))));
+
+        s.reorderList(head);
+
     }
 }
