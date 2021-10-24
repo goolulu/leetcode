@@ -1139,32 +1139,32 @@ public class Solution {
         }
     }
 
-//    public void reorderList(ListNode head) {
-//        Deque<Integer> deque = new ArrayDeque<>();
-//        ListNode node = head;
-//        while (node != null) {
-//
-//            deque.addFirst(node.val);
-//            node = node.next;
-//        }
-//        // true 从下面开始，false 从上面开始
-//        boolean flag = false;
-//        deque.pollLast();
-//        ListNode node1 = head;
-//        while (deque.size() > 0) {
-//            ListNode temp = node1.next;
-//            if (flag) {
-//                temp.val = deque.pollLast();
-//                flag = false;
-//            } else {
-//                temp.val = deque.pollFirst();
-//                flag = true;
-//            }
-//            node1 = temp;
-//        }
-//
-//        System.out.println(head);
-//    }
+    // public void reorderList(ListNode head) {
+    // Deque<Integer> deque = new ArrayDeque<>();
+    // ListNode node = head;
+    // while (node != null) {
+    //
+    // deque.addFirst(node.val);
+    // node = node.next;
+    // }
+    // // true 从下面开始，false 从上面开始
+    // boolean flag = false;
+    // deque.pollLast();
+    // ListNode node1 = head;
+    // while (deque.size() > 0) {
+    // ListNode temp = node1.next;
+    // if (flag) {
+    // temp.val = deque.pollLast();
+    // flag = false;
+    // } else {
+    // temp.val = deque.pollFirst();
+    // flag = true;
+    // }
+    // node1 = temp;
+    // }
+    //
+    // System.out.println(head);
+    // }
 
     static class TreeNode {
         int val;
@@ -1272,7 +1272,7 @@ public class Solution {
 
     private TreeNode buildTree(int[] nums, int left, int right) {
         if (left == right) {
-            return null ;
+            return null;
         }
         int maxIndex = getMaxIndex(nums, left, right);
 
@@ -1282,7 +1282,7 @@ public class Solution {
         return root;
     }
 
-    private int getMaxIndex(int[] nums,int left, int right) {
+    private int getMaxIndex(int[] nums, int left, int right) {
         int maxIndex = left;
         for (int i = left; i < right; i++) {
             if (nums[i] > nums[maxIndex]) {
@@ -1291,39 +1291,93 @@ public class Solution {
         }
         return maxIndex;
     }
-//public TreeNode constructMaximumBinaryTree(int[] nums) {
-//    TreeNode root = construct(nums, 0, nums.length);
-//    return root;
-//}
-//    public TreeNode construct(int[] nums, int l, int r) {
-//        if (l == r)
-//            return null;
-//        int max_i = max(nums, l, r);
-//        TreeNode root = new TreeNode(nums[max_i]);
-//        root.left = construct(nums, l, max_i);
-//        root.right = construct(nums, max_i + 1, r);
-//        return root;
-//    }
-//    public int max(int[] nums, int l, int r) {
-//        int max_i = l;
-//        for (int i = l; i < r; i++) {
-//            if (nums[max_i] < nums[i])
-//                max_i = i;
-//        }
-//        return max_i;
-//    }
+    // public TreeNode constructMaximumBinaryTree(int[] nums) {
+    // TreeNode root = construct(nums, 0, nums.length);
+    // return root;
+    // }
+    // public TreeNode construct(int[] nums, int l, int r) {
+    // if (l == r)
+    // return null;
+    // int max_i = max(nums, l, r);
+    // TreeNode root = new TreeNode(nums[max_i]);
+    // root.left = construct(nums, l, max_i);
+    // root.right = construct(nums, max_i + 1, r);
+    // return root;
+    // }
+    // public int max(int[] nums, int l, int r) {
+    // int max_i = l;
+    // for (int i = l; i < r; i++) {
+    // if (nums[max_i] < nums[i])
+    // max_i = i;
+    // }
+    // return max_i;
+    // }
 
     /**
      * 剑指 Offer II 026. 重排链表
+     * 
      * @param head
      */
-    public void reorderList(ListNode head) {
 
+    public void reorderList(ListNode head) {
+        if (head == null) {
+            return;
+        }
+        ListNode mid = middleNode(head);
+        ListNode l1 = head;
+        ListNode l2 = mid.next;
+        mid.next = null;
+        l2 = reverseList(l2);
+        mergeList(l1, l2,head);
+        System.out.println(head);
     }
+
+    public ListNode middleNode(ListNode head) {
+        ListNode slow = head;
+        ListNode fast = head;
+        while (fast.next != null && fast.next.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        return slow;
+    }
+
+    public ListNode reverseList(ListNode head) {
+        ListNode prev = null;
+        ListNode curr = head;
+        while (curr != null) {
+            ListNode nextTemp = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = nextTemp;
+        }
+        return prev;
+    }
+
+    public void mergeList(ListNode l1, ListNode l2,ListNode head) {
+        ListNode l1temp;
+        ListNode l2temp;
+        while (l1 != null && l2 != null) {
+            l1temp = l1.next;
+            l2temp = l2.next;
+            l1.next = l2;
+            l1 = l1temp;
+            l2.next = l1;
+            l2=l2temp;
+        }
+    }
+
+    static class A {
+
+        public int value;
+        public A innerA;
+    }
+
     public static void main(String[] args) {
-        Solution s = new Solution();
-        int[] preorder = {3,2,1,6,0,5};
-        s.constructMaximumBinaryTree(preorder);
+         Solution s = new Solution();
+         ListNode head = new ListNode(1, new ListNode(2, new ListNode(3, new ListNode(4))));
+         s.reorderList(head);
+
 
     }
 }
