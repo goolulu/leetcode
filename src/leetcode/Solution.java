@@ -19,7 +19,7 @@ public class Solution {
         for (int i = 0; i < nums.length; i++) {
             int key = target - nums[i];
             if (map.containsKey(key)) {
-                return new int[]{map.get(key), i};
+                return new int[] {map.get(key), i};
             }
             map.put(nums[i], i);
         }
@@ -50,8 +50,8 @@ public class Solution {
      * @Author: huang
      * @Date: 2021/4/10
      */
-    //方法一
-   /* public int removeElement(int[] nums, int val) {
+    // 方法一
+    /* public int removeElement(int[] nums, int val) {
         int i = 0;
         int n = nums.length;
         while (i < n) {
@@ -64,7 +64,7 @@ public class Solution {
         }
         return n;
     }*/
-    //方法二
+    // 方法二
     public int removeElement(int[] nums, int val) {
         int i = 0;
         for (int j = 0; j < nums.length; j++) {
@@ -88,7 +88,7 @@ public class Solution {
         int right = nums.length - 1;
         int key = nums.length;
         while (left <= right) {
-            //这种方式能够防止溢出
+            // 这种方式能够防止溢出
             int mid = ((right - left) >> 1) + left;
             if (target <= nums[mid]) {
                 key = mid;
@@ -108,8 +108,7 @@ public class Solution {
      * @Date: 2021/4/10-18:26
      */
     public int maxSubArray(int[] nums) {
-        int pre = 0,
-                max = nums[0];
+        int pre = 0, max = nums[0];
         for (int x : nums) {
             pre = Math.max(pre + x, x);
             max = Math.max(pre, max);
@@ -143,7 +142,7 @@ public class Solution {
         }
         return result;
     }*/
-    //方法二
+    // 方法二
     public int[] plusOne(int[] digits) {
         for (int i = digits.length - 1; i >= 0; i--) {
             digits[i]++;
@@ -204,7 +203,7 @@ public class Solution {
                 if (j == 0 || j == i) {
                     row.add(1);
                 } else {
-                    //等于上一行的前一个加上一行对应index
+                    // 等于上一行的前一个加上一行对应index
                     row.add(ret.get(i - 1).get(j - 1) + ret.get(i - 1).get(j));
                 }
             }
@@ -236,7 +235,7 @@ public class Solution {
         }
         return pre;
     }*/
-    //方法二
+    // 方法二
     public List<Integer> getRow(int rowIndex) {
         List<Integer> row = new ArrayList<Integer>();
         row.add(1);
@@ -292,7 +291,7 @@ public class Solution {
         }
         return result;
     }*/
-    //二分法
+    // 二分法
     public int[] twoSum1(int[] numbers, int target) {
 
         for (int i = 0; i < numbers.length; i++) {
@@ -303,13 +302,13 @@ public class Solution {
                 if (target - numbers[i] > numbers[mid]) {
                     left = mid + 1;
                 } else if (target - numbers[i] == numbers[mid]) {
-                    return new int[]{i, mid};
+                    return new int[] {i, mid};
                 } else {
                     right = mid - 1;
                 }
             }
         }
-        return new int[]{-1, -1};
+        return new int[] {-1, -1};
     }
 
     /**
@@ -349,7 +348,7 @@ public class Solution {
         int major = nums.length/2+1;
         return nums[major];
     }*/
-    //方法二
+    // 方法二
     public int majorityElement(int[] nums) {
         int major = nums[0];
         int count = 1;
@@ -460,7 +459,6 @@ public class Solution {
 
     }
 
-
     /**
      * @Description: 283. 移动零
      * @Param:
@@ -468,7 +466,7 @@ public class Solution {
      * @Author: huang
      * @Date: 2021/4/15-13:04
      */
-    //自己写的
+    // 自己写的
     public void moveZeroes(int[] nums) {
         int i = 0;
         int j = 0;
@@ -496,7 +494,7 @@ public class Solution {
             }
         }
     }
-    //官方
+    // 官方
     /*public void moveZeroes(int[] nums) {
         int i =0;
         int j = 0;
@@ -560,7 +558,7 @@ public class Solution {
         return list;
     }
 
-    //官方方法
+    // 官方方法
     public List<Integer> findDisappearedNumbers1(int[] nums) {
         List<Integer> list = new ArrayList<>();
         for (int i = 0; i < nums.length; i++) {
@@ -645,9 +643,9 @@ public class Solution {
         return result;
     }
 
-    //官方方法
-    //知识点：首先将矩阵转换成一维数组。可以知道元素的下标。在矩阵当中，知道一个元素的下标和矩阵大小就可以知道元素的位置（坐标）。
-    //元素的坐标等于（index/矩阵的列的个数，index%列的个数）
+    // 官方方法
+    // 知识点：首先将矩阵转换成一维数组。可以知道元素的下标。在矩阵当中，知道一个元素的下标和矩阵大小就可以知道元素的位置（坐标）。
+    // 元素的坐标等于（index/矩阵的列的个数，index%列的个数）
     public int[][] matrixReshape1(int[][] nums, int r, int c) {
         int m = nums.length;
         int n = nums[0].length;
@@ -707,7 +705,7 @@ public class Solution {
             current = current + nums[i + k] - nums[i];
             max = Math.max(max, current);
         }
-        return (double) max / k;
+        return (double)max / k;
     }
 
     /**
@@ -739,7 +737,6 @@ public class Solution {
         return result;
     }
 
-
     /**
      * @Description: 665. 非递减数列
      * @Param:
@@ -747,7 +744,6 @@ public class Solution {
      * @Author: huang
      * @Date: 2021/4/16-19:31
      */
-
 
     /**
      * @Description: 674. 最长连续递增序列
@@ -809,7 +805,7 @@ public class Solution {
         return min;
     }
 
-    //官方方法
+    // 官方方法
     public int findShortestSubArray1(int[] nums) {
         HashMap<Integer, int[]> map = new HashMap<>();
         for (int i = 0; i < nums.length; i++) {
@@ -817,7 +813,7 @@ public class Solution {
                 map.get(nums[i])[0]++;
                 map.get(nums[i])[2] = i;
             } else {
-                map.put(nums[i], new int[]{1, i, i});
+                map.put(nums[i], new int[] {1, i, i});
             }
         }
         int maxNum = 0;
@@ -932,7 +928,7 @@ public class Solution {
         return true;
     }
 
-    //官方方法 优点：不用把每一条斜线确定，只要确定每一个元素的斜边的下一个相等
+    // 官方方法 优点：不用把每一条斜线确定，只要确定每一个元素的斜边的下一个相等
     public boolean isToeplitzMatrix1(int[][] matrix) {
         int m = matrix.length, n = matrix[0].length;
         for (int i = 1; i < m; i++) {
@@ -1018,7 +1014,6 @@ public class Solution {
             }
         }
 
-
         return res;
     }
 
@@ -1041,13 +1036,13 @@ public class Solution {
         }
         for (int j = 0; j < B.length; j++) {
             if (aMap.containsValue(B[j])) {
-                return new int[]{B[j] - b, B[j]};
+                return new int[] {B[j] - b, B[j]};
             }
         }
-        return new int[]{a, b};
+        return new int[] {a, b};
     }
 
-    //官方方法
+    // 官方方法
     public int[] fairCandySwap1(int[] A, int[] B) {
         int aSum = Arrays.stream(A).sum();
         int bSum = Arrays.stream(B).sum();
@@ -1059,7 +1054,7 @@ public class Solution {
         for (int y : B) {
             int x = y + k;
             if (aMap.contains(x)) {
-                return new int[]{x, y};
+                return new int[] {x, y};
             }
         }
         return null;
@@ -1096,7 +1091,7 @@ public class Solution {
 
     }
 
-    //官方方法 优化了我的方法
+    // 官方方法 优化了我的方法
     public boolean isMonotonic1(int[] A) {
         boolean a = true;
         boolean b = true;
@@ -1111,8 +1106,6 @@ public class Solution {
         return a || b;
     }
 
-
-
     public int findMaxNum(int[] nums, int left, int right) {
         int max = Integer.MIN_VALUE;
         int index = 0;
@@ -1125,55 +1118,212 @@ public class Solution {
         return index;
     }
 
-     static class ListNode {
+    static class ListNode {
         int val;
         ListNode next;
+
         ListNode() {}
-        ListNode(int val) { this.val = val; }
-        ListNode(int val, ListNode next) { this.val = val; this.next = next; }
 
-         @Override
-         public String toString() {
-             return "ListNode{" +
-                     "val=" + val +
-                     ", next=" + next +
-                     '}';
-         }
-     }
-
-    public void reorderList(ListNode head) {
-        Deque<Integer> deque = new ArrayDeque<>();
-        ListNode node = head;
-        while (node != null) {
-
-            deque.addFirst(node.val);
-            node = node.next;
-        }
-        //true 从下面开始，false 从上面开始
-        boolean flag = false;
-        deque.pollLast();
-        ListNode node1 = head;
-        while (deque.size() > 0) {
-            ListNode temp = node1.next;
-            if (flag) {
-                temp.val = deque.pollLast();
-                flag = false;
-            } else {
-                temp.val = deque.pollFirst();
-                flag = true;
-            }
-            node1 = temp;
+        ListNode(int val) {
+            this.val = val;
         }
 
-        System.out.println(head);
+        ListNode(int val, ListNode next) {
+            this.val = val;
+            this.next = next;
+        }
+
+        @Override
+        public String toString() {
+            return "ListNode{" + "val=" + val + ", next=" + next + '}';
+        }
     }
 
+//    public void reorderList(ListNode head) {
+//        Deque<Integer> deque = new ArrayDeque<>();
+//        ListNode node = head;
+//        while (node != null) {
+//
+//            deque.addFirst(node.val);
+//            node = node.next;
+//        }
+//        // true 从下面开始，false 从上面开始
+//        boolean flag = false;
+//        deque.pollLast();
+//        ListNode node1 = head;
+//        while (deque.size() > 0) {
+//            ListNode temp = node1.next;
+//            if (flag) {
+//                temp.val = deque.pollLast();
+//                flag = false;
+//            } else {
+//                temp.val = deque.pollFirst();
+//                flag = true;
+//            }
+//            node1 = temp;
+//        }
+//
+//        System.out.println(head);
+//    }
+
+    static class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+
+        TreeNode() {}
+
+        TreeNode(int val) {
+            this.val = val;
+        }
+
+        TreeNode(int val, TreeNode left, TreeNode right) {
+            this.val = val;
+            this.left = left;
+            this.right = right;
+        }
+    }
+
+    /**
+     * 114. 二叉树展开为链表
+     * 
+     * @param root
+     */
+    /*    public void flatten(TreeNode root) {
+        TreeNode curr = root;
+        while (curr != null) {
+            if (curr.left!=null) {
+                TreeNode next = curr.left;
+                TreeNode process = next;
+                while (process.right != null) {
+                    process = process.right;
+                }
+                process.right = curr.right;
+                curr.left = null;
+                curr.right = next;
+            }
+            curr = curr.right;
+        }
+    }*/
+    public void flatten(TreeNode root) {
+        presort(root);
+        for (int i = 1; i < list.size(); i++) {
+            TreeNode prev = list.get(i - 1), curr = list.get(i);
+            prev.left = null;
+            prev.right = curr;
+
+        }
+    }
+
+    List<TreeNode> list = new LinkedList<>();
+
+    private void presort(TreeNode root) {
+        if (root != null) {
+            list.add(root);
+            presort(root.left);
+            presort(root.right);
+        }
+    }
+
+    /**
+     * 剑指 Offer II 038. 每日温度
+     * 
+     * @param temperatures
+     * @return
+     */
+    public int[] dailyTemperatures(int[] temperatures) {
+        int[] result = new int[temperatures.length];
+        int pre = 0;
+        int next = pre + 1;
+        for (int i = 0; i < temperatures.length; i++) {
+
+        }
+        return result;
+    }
+
+    public TreeNode bstFromPreorder(int[] preorder) {
+        TreeNode root;
+        if (preorder.length == 0) {
+            root = new TreeNode();
+            return root;
+        }
+        root = new TreeNode(preorder[0]);
+        TreeNode tree = root;
+        int value = root.val;
+        for (int i = 1; i < preorder.length; i++) {
+            if (preorder[i] < value) {
+                tree.left = new TreeNode(preorder[i]);
+                value = tree.left.val;
+                tree = tree.left;
+            } else {
+                tree.right = new TreeNode(preorder[i]);
+                value = tree.right.val;
+                tree = tree.right;
+            }
+
+        }
+        return root;
+    }
+
+    public TreeNode constructMaximumBinaryTree(int[] nums) {
+        TreeNode root = buildTree(nums, 0, nums.length);
+        return root;
+    }
+
+    private TreeNode buildTree(int[] nums, int left, int right) {
+        if (left == right) {
+            return null ;
+        }
+        int maxIndex = getMaxIndex(nums, left, right);
+
+        TreeNode root = new TreeNode(nums[maxIndex]);
+        root.left = buildTree(nums, left, maxIndex);
+        root.right = buildTree(nums, maxIndex + 1, right);
+        return root;
+    }
+
+    private int getMaxIndex(int[] nums,int left, int right) {
+        int maxIndex = left;
+        for (int i = left; i < right; i++) {
+            if (nums[i] > nums[maxIndex]) {
+                maxIndex = i;
+            }
+        }
+        return maxIndex;
+    }
+//public TreeNode constructMaximumBinaryTree(int[] nums) {
+//    TreeNode root = construct(nums, 0, nums.length);
+//    return root;
+//}
+//    public TreeNode construct(int[] nums, int l, int r) {
+//        if (l == r)
+//            return null;
+//        int max_i = max(nums, l, r);
+//        TreeNode root = new TreeNode(nums[max_i]);
+//        root.left = construct(nums, l, max_i);
+//        root.right = construct(nums, max_i + 1, r);
+//        return root;
+//    }
+//    public int max(int[] nums, int l, int r) {
+//        int max_i = l;
+//        for (int i = l; i < r; i++) {
+//            if (nums[max_i] < nums[i])
+//                max_i = i;
+//        }
+//        return max_i;
+//    }
+
+    /**
+     * 剑指 Offer II 026. 重排链表
+     * @param head
+     */
+    public void reorderList(ListNode head) {
+
+    }
     public static void main(String[] args) {
         Solution s = new Solution();
-
-        ListNode head = new ListNode(1,new ListNode(2,new ListNode(3,new ListNode(4))));
-
-        s.reorderList(head);
+        int[] preorder = {3,2,1,6,0,5};
+        s.constructMaximumBinaryTree(preorder);
 
     }
 }
