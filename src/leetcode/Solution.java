@@ -1328,7 +1328,7 @@ public class Solution {
         ListNode l2 = mid.next;
         mid.next = null;
         l2 = reverseList(l2);
-        mergeList(l1, l2,head);
+        mergeList(l1, l2, head);
         System.out.println(head);
     }
 
@@ -1354,7 +1354,7 @@ public class Solution {
         return prev;
     }
 
-    public void mergeList(ListNode l1, ListNode l2,ListNode head) {
+    public void mergeList(ListNode l1, ListNode l2, ListNode head) {
         ListNode l1temp;
         ListNode l2temp;
         while (l1 != null && l2 != null) {
@@ -1363,21 +1363,43 @@ public class Solution {
             l1.next = l2;
             l1 = l1temp;
             l2.next = l1;
-            l2=l2temp;
+            l2 = l2temp;
         }
     }
-
-    static class A {
-
-        public int value;
-        public A innerA;
+    //402. 移掉 K 位数字
+    public String removeKdigits(String num, int k) {
+        Deque<Character> deque = new LinkedList<>();
+        for (int i = 0; i < num.length(); i++) {
+            char dight = num.charAt(i);
+            while (!deque.isEmpty() && k > 0 && deque.peekLast() > dight) {
+                deque.pollLast();
+                k--;
+            }
+            deque.offerLast(dight);
+        }
+        //如果没有删除过数字，则从后端删除
+        for (int i = 0; i < k; i++) {
+            deque.pollLast();
+        }
+        StringBuilder sb = new StringBuilder();
+        boolean leadingZero = true;
+        while (!deque.isEmpty()) {
+            char dight = deque.pollFirst();
+            //找到头一个不是零的数字
+            if (leadingZero && dight == '0') {
+                continue;
+            }
+            leadingZero = false;
+            sb.append(dight);
+        }
+        return sb.length()==0?"0":sb.toString();
     }
 
     public static void main(String[] args) {
-         Solution s = new Solution();
-         ListNode head = new ListNode(1, new ListNode(2, new ListNode(3, new ListNode(4))));
-         s.reorderList(head);
-
+        Solution s = new Solution();
+        ListNode head = new ListNode(1, new ListNode(2, new ListNode(3, new ListNode(4))));
+        s.reorderList(head);
+        Deque<Integer> deque = new LinkedList<>();
 
     }
 }
