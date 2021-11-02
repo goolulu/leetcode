@@ -1366,7 +1366,8 @@ public class Solution {
             l2 = l2temp;
         }
     }
-    //402. 移掉 K 位数字
+
+    // 402. 移掉 K 位数字
     public String removeKdigits(String num, int k) {
         Deque<Character> deque = new LinkedList<>();
         for (int i = 0; i < num.length(); i++) {
@@ -1377,7 +1378,7 @@ public class Solution {
             }
             deque.offerLast(dight);
         }
-        //如果没有删除过数字，则从后端删除
+        // 如果没有删除过数字，则从后端删除
         for (int i = 0; i < k; i++) {
             deque.pollLast();
         }
@@ -1385,20 +1386,57 @@ public class Solution {
         boolean leadingZero = true;
         while (!deque.isEmpty()) {
             char dight = deque.pollFirst();
-            //找到头一个不是零的数字
+            // 找到头一个不是零的数字
             if (leadingZero && dight == '0') {
                 continue;
             }
             leadingZero = false;
             sb.append(dight);
         }
-        return sb.length()==0?"0":sb.toString();
+        return sb.length() == 0 ? "0" : sb.toString();
     }
+
+    /**
+     * 445. 两数相加 II
+     * 
+     * @param l1
+     * @param l2
+     */
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        ListNode l3 =null;
+        Deque<Integer> stack1 = new LinkedList<>();
+        Deque<Integer> stack2 = new LinkedList<>();
+        ListNode iteror1 = l1;
+        ListNode iteror2 = l2;
+        while (iteror1 != null) {
+            stack1.push(iteror1.val);
+            iteror1 = iteror1.next;
+        }
+        while (iteror2 != null) {
+            stack2.push(iteror2.val);
+            iteror2 = iteror2.next;
+        }
+        int temp3 = 0;
+        while (!stack1.isEmpty() || !stack2.isEmpty() || temp3>0) {
+            int val1 = stack1.isEmpty()?0:stack1.pop();
+            int val2 = stack2.isEmpty()?0:stack2.pop();
+            int curr = temp3 + val1 + val2;
+            temp3 = curr / 10;
+            curr = curr % 10;
+            ListNode node = new ListNode(curr);
+            node.next = l3;
+            l3 = node;
+        }
+        return l3;
+    }
+
+
 
     public static void main(String[] args) {
         Solution s = new Solution();
-        ListNode head = new ListNode(1, new ListNode(2, new ListNode(3, new ListNode(4))));
-        s.reorderList(head);
+        ListNode head1 = new ListNode(7, new ListNode(2, new ListNode(4, new ListNode(3))));
+        ListNode head2 = new ListNode(5, new ListNode(6, new ListNode(4)));
+        s.addTwoNumbers(head1,head2);
         Deque<Integer> deque = new LinkedList<>();
 
     }
