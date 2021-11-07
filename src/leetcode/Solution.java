@@ -1403,7 +1403,7 @@ public class Solution {
      * @param l2
      */
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
-        ListNode l3 =null;
+        ListNode l3 = null;
         Deque<Integer> stack1 = new LinkedList<>();
         Deque<Integer> stack2 = new LinkedList<>();
         ListNode iteror1 = l1;
@@ -1417,9 +1417,9 @@ public class Solution {
             iteror2 = iteror2.next;
         }
         int temp3 = 0;
-        while (!stack1.isEmpty() || !stack2.isEmpty() || temp3>0) {
-            int val1 = stack1.isEmpty()?0:stack1.pop();
-            int val2 = stack2.isEmpty()?0:stack2.pop();
+        while (!stack1.isEmpty() || !stack2.isEmpty() || temp3 > 0) {
+            int val1 = stack1.isEmpty() ? 0 : stack1.pop();
+            int val2 = stack2.isEmpty() ? 0 : stack2.pop();
             int curr = temp3 + val1 + val2;
             temp3 = curr / 10;
             curr = curr % 10;
@@ -1430,14 +1430,136 @@ public class Solution {
         return l3;
     }
 
+    /**
+     * 456. 132 模式
+     * 
+     * @param nums
+     * @return
+     */
+    // public boolean find132pattern(int[] nums) {
+    // int n = nums.length;
+    // if (n < 3) {
+    // return false;
+    // }
+    // int leftMin = nums[0];
+    // TreeMap<Integer, Integer> rightAll = new TreeMap<>();
+    // for (int k = 2; k < n; k++) {
+    // rightAll.put(nums[k], rightAll.getOrDefault(nums[k], 0) + 1);
+    // }
+    // for (int j = 1; j < n - 1; j++) {
+    // if (leftMin > nums[j]) {
+    // leftMin = nums[j];
+    // }
+    // if (leftMin < nums[j]) {
+    // Integer next = rightAll.ceilingKey(leftMin + 1);
+    // if (next != null && next < nums[j]) {
+    // return true;
+    // }
+    // }
+    // rightAll.put(nums[j + 1], rightAll.get(nums[j + 1]) - 1);
+    // if (rightAll.get(nums[j + 1]) == 0) {
+    // rightAll.remove(nums[j + 1]);
+    // }
+    // }
+    // return false;
+    // }
 
+    // public boolean find132pattern(int[] nums) {
+    // int n = nums.length;
+    // int maxK = Integer.MIN_VALUE;
+    // Stack<Integer> stack = new Stack<>();
+    // stack.push(nums[n - 1]);
+    // for (int i = n - 2; i >= 0; i--) {
+    // if (nums[i] < maxK) {
+    // return true;
+    // }
+    // while (!stack.isEmpty() && nums[i] > stack.peek()) {
+    // maxK = stack.pop();
+    // }
+    // if (nums[i] > maxK) {
+    // stack.push(nums[i]);
+    // }
+    // }
+    // return false;
+    // }
+
+    public boolean find132pattern(int[] nums) {
+        int n = nums.length;
+        List<Integer> candidateI = new ArrayList<Integer>();
+        candidateI.add(nums[0]);
+        List<Integer> candidateJ = new ArrayList<Integer>();
+        candidateJ.add(nums[0]);
+
+        for (int k = 1; k < n; ++k) {
+            int idxI = binarySearchFirst(candidateI, nums[k]);
+            int idxJ = binarySearchLast(candidateJ, nums[k]);
+            if (idxI >= 0 && idxJ >= 0) {
+                if (idxI <= idxJ) {
+                    return true;
+                }
+            }
+
+            if (nums[k] < candidateI.get(candidateI.size() - 1)) {
+                candidateI.add(nums[k]);
+                candidateJ.add(nums[k]);
+            } else if (nums[k] > candidateJ.get(candidateJ.size() - 1)) {
+                int lastI = candidateI.get(candidateI.size() - 1);
+                while (!candidateJ.isEmpty() && nums[k] > candidateJ.get(candidateJ.size() - 1)) {
+                    candidateI.remove(candidateI.size() - 1);
+                    candidateJ.remove(candidateJ.size() - 1);
+                }
+                candidateI.add(lastI);
+                candidateJ.add(nums[k]);
+            }
+        }
+
+        return false;
+    }
+
+    public int binarySearchFirst(List<Integer> candidate, int target) {
+        int low = 0, high = candidate.size() - 1;
+        if (candidate.get(high) >= target) {
+            return -1;
+        }
+        while (low < high) {
+            int mid = (high - low) / 2 + low;
+            int num = candidate.get(mid);
+            if (num >= target) {
+                low = mid + 1;
+            } else {
+                high = mid;
+            }
+        }
+        return low;
+    }
+
+    public int binarySearchLast(List<Integer> candidate, int target) {
+        int low = 0, high = candidate.size() - 1;
+        if (candidate.get(low) <= target) {
+            return -1;
+        }
+        while (low < high) {
+            int mid = (high - low + 1) / 2 + low;
+            int num = candidate.get(mid);
+            if (num <= target) {
+                high = mid - 1;
+            } else {
+                low = mid;
+            }
+        }
+        return low;
+    }
 
     public static void main(String[] args) {
         Solution s = new Solution();
-        ListNode head1 = new ListNode(7, new ListNode(2, new ListNode(4, new ListNode(3))));
-        ListNode head2 = new ListNode(5, new ListNode(6, new ListNode(4)));
-        s.addTwoNumbers(head1,head2);
         Deque<Integer> deque = new LinkedList<>();
+        TreeMap<Integer, Integer> rightAll = new TreeMap<>();
+        int[] nums = new int[] {0, 7, 1, 2, 3, 3, 4, 4, 5, 2, 2, 3, 4, 5, 7};
+        for (int i = 0; i < nums.length; i++) {
+            rightAll.put(nums[i], rightAll.getOrDefault(nums[i], 0) + 1);
 
+        }
+        System.out.println(rightAll);
+        System.out.println(rightAll.ceilingKey(6));
     }
 }
