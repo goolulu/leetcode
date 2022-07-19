@@ -1,6 +1,5 @@
 package leetcode;
 
-import javax.swing.tree.TreeNode;
 import java.util.*;
 
 /**
@@ -1550,16 +1549,87 @@ public class Solution {
         return low;
     }
 
-    public static void main(String[] args) {
-        Solution s = new Solution();
-        Deque<Integer> deque = new LinkedList<>();
-        TreeMap<Integer, Integer> rightAll = new TreeMap<>();
-        int[] nums = new int[] {0, 7, 1, 2, 3, 3, 4, 4, 5, 2, 2, 3, 4, 5, 7};
-        for (int i = 0; i < nums.length; i++) {
-            rightAll.put(nums[i], rightAll.getOrDefault(nums[i], 0) + 1);
+    /**
+     * 503. 下一个更大元素 II
+     * 
+     * @param nums
+     * @return
+     */
+    public int[] nextGreaterElements(int[] nums) {
+        int[] res = new int[nums.length];
+        Arrays.fill(res, -1);
+        int n = nums.length;
+        Stack<Integer> stack = new Stack<>();
+        for (int i = 0; i < 2 * n - 1; i++) {
+            while (!stack.isEmpty() && nums[stack.peek()] < nums[i % n]) {
+                res[stack.pop()] = nums[i % n];
+            }
+            stack.push(i % n);
+        }
+        return res;
+    }
+
+    public int findClosest(String[] words, String word1, String word2) {
+        int len = Integer.MAX_VALUE;
+        Integer word1Index = null;
+        Integer word2Index = null;
+        for (int i = 0; i < words.length; i++) {
+            String word = words[i];
+            if (word1.equals(word)) {
+                word1Index = i;
+            }
+            if (word2.equals(word)) {
+                word2Index = i;
+            }
+            if ((word1Index != null && word2Index != null) && Math.abs(word2Index - word1Index) <= len) {
+                len = word2Index - word1Index;
+            }
 
         }
-        System.out.println(rightAll);
-        System.out.println(rightAll.ceilingKey(6));
+        return len;
+    }
+
+    public TreeNode sortedArrayToBST(int[] nums) {
+        int left = 0;
+        int right = nums.length - 1;
+        TreeNode root = sortedArrayToBST(nums, left, right);
+        return root;
+
+    }
+
+    private TreeNode sortedArrayToBST(int[] nums, int left, int right) {
+        if (right < left) {
+            return null;
+        }
+        int mid = (left + right) / 2;
+        TreeNode root = new TreeNode(nums[mid]);
+        root.left = sortedArrayToBST(nums, left, mid - 1);
+        root.right = sortedArrayToBST(nums, mid + 1, right);
+        return root;
+    }
+
+
+    int res = 0;
+    public int sumRootToLeaf(TreeNode root) {
+         sumRootToLeaf(root, 0);
+        return res;
+    }
+
+    private void sumRootToLeaf(TreeNode node, int presum) {
+        if (node == null) {
+            return ;
+        }
+        presum = presum * 2 + node.val;
+        if (node.left == null && node.right == null) {
+            res = presum + res;
+        }
+        sumRootToLeaf(node.left, res);
+        sumRootToLeaf(node.right, res);
+
+    }
+
+    public static void main(String[] args) {
+        Solution s = new Solution();
+        s.sortedArrayToBST(new int[] {1, 3});
     }
 }
