@@ -1,8 +1,6 @@
 package leetcode;
 
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * @author huangrn
@@ -1850,7 +1848,7 @@ public class Solution {
                 case "+":
                     int second = stack.pop();
                     int first = stack.pop();
-                    int third = first+second;
+                    int third = first + second;
                     stack.push(first);
                     stack.push(second);
                     stack.push(third);
@@ -1875,11 +1873,49 @@ public class Solution {
     }
 
     public boolean backspaceCompare(String s, String t) {
-
+        int sIndex = s.length() - 1, tIndex = t.length() - 1;
+        int skips = 0, skipt = 0;
+        while (sIndex >= 0 || tIndex >= 0) {
+            while (sIndex >= 0) {
+                if (s.charAt(sIndex) == '#') {
+                    skips++;
+                    sIndex--;
+                } else if (skips > 0) {
+                    skips--;
+                    sIndex--;
+                } else {
+                    break;
+                }
+            }
+            while (tIndex >= 0) {
+                if (t.charAt(tIndex) == '#') {
+                    skipt++;
+                    tIndex--;
+                } else if (skipt > 0) {
+                    skipt--;
+                    tIndex--;
+                } else {
+                    break;
+                }
+            }
+            if (sIndex >= 0 && tIndex >= 0) {
+                if (s.charAt(sIndex) != t.charAt(tIndex)) {
+                    return false;
+                }
+            } else {
+                if (sIndex >= 0 || tIndex >= 0) {
+                    return false;
+                }
+            }
+            sIndex--;
+            tIndex--;
+        }
+        return true;
     }
 
     public static void main(String[] args) {
         Solution s = new Solution();
-        System.out.println(s.calPoints(new String[]{"5","-2","4","C","D","9","+","+"}));
+        System.out.println(s.backspaceCompare("a##c", "#a#c"));
+        System.out.println(s.backspaceCompare("y#fo##f", "y#f#o##f"));
     }
 }
