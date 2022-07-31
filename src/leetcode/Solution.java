@@ -1,6 +1,8 @@
 package leetcode;
 
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @author huangrn
@@ -1139,14 +1141,15 @@ public class Solution {
         }
     }
 
-    static class Node{
+    static class Node {
         public int val;
         public List<Node> children;
 
-        public Node() {}
+        public Node() {
+        }
 
         public Node(int val) {
-            val = val;
+            this.val = val;
         }
 
         public Node(int _val, List<Node> children) {
@@ -1753,12 +1756,103 @@ public class Solution {
             list.add(node.val);
             List<Node> children = node.children;
             for (Node child : children) {
-                post(child,list);
+                post(child, list);
             }
         }
     }
+
+    public List<Integer> postorder(Node root) {
+        List<Integer> list = new ArrayList<>();
+        Stack<Node> stack = new Stack<>();
+        Node node = root;
+        while (node != null) {
+            if (node.children !=null && !node.children.isEmpty()) {
+                stack.push(node);
+                Node theNext = node.children.remove(0);
+                node = theNext;
+            } else {
+                list.add(node.val);
+                if (!stack.isEmpty()) {
+                    node = stack.pop();
+                } else {
+                    node = null;
+                }
+            }
+        }
+        System.out.println(list);
+        return list;
+    }
+
+    public List<Integer> postorder1(Node root) {
+        List<Integer> res = new ArrayList<Integer>();
+        if (root == null) {
+            return res;
+        }
+        Map<Node, Integer> map = new HashMap<Node, Integer>();
+        Deque<Node> stack = new ArrayDeque<Node>();
+        Node node = root;
+        while (!stack.isEmpty() || node != null) {
+            while (node != null) {
+                stack.push(node);
+                List<Node> children = node.children;
+                if (children != null && children.size() > 0) {
+                    map.put(node, 0);
+                    node = children.get(0);
+                } else {
+                    node = null;
+                }
+            }
+            node = stack.peek();
+            int index = map.getOrDefault(node, -1) + 1;
+            List<Node> children = node.children;
+            if (children != null && children.size() > index) {
+                map.put(node, index);
+                node = children.get(index);
+            } else {
+                res.add(node.val);
+                stack.pop();
+                map.remove(node);
+                node = null;
+            }
+        }
+        return res;
+    }
+
+    public List<Integer> postorder2(Node root) {
+        List<Integer> res = new ArrayList<>();
+        if (root == null) {
+            return res;
+        }
+
+        Deque<Node> stack = new ArrayDeque<Node>();
+        Set<Node> visited = new HashSet<Node>();
+        stack.push(root);
+        while (!stack.isEmpty()) {
+            Node node = stack.peek();
+            /* 如果当前节点为叶子节点或者当前节点的子节点已经遍历过 */
+            if (node.children.size() == 0 || visited.contains(node)) {
+                stack.pop();
+                res.add(node.val);
+                continue;
+            }
+            for (int i = node.children.size() - 1; i >= 0; --i) {
+                stack.push(node.children.get(i));
+            }
+            visited.add(node);
+        }
+        return res;
+    }
+
     public static void main(String[] args) {
         Solution s = new Solution();
-        s.nextGreaterElement(new int[]{4,1,2},new int[]{1,3,4,2});
+        Node node1 = new Node(1);
+        Node node2 = new Node(2);
+        Node node3 = new Node(3);
+        Node node4 = new Node(4);
+        Node node5 = new Node(5);
+        Node node6 = new Node(6);
+        node1.children = Stream.of(node3, node2, node4).collect(Collectors.toList());
+        node3.children = Stream.of(node5, node6).collect(Collectors.toList());
+        s.postorder(node1);
     }
 }
