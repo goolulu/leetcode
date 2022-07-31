@@ -1766,7 +1766,7 @@ public class Solution {
         Stack<Node> stack = new Stack<>();
         Node node = root;
         while (node != null) {
-            if (node.children !=null && !node.children.isEmpty()) {
+            if (node.children != null && !node.children.isEmpty()) {
                 stack.push(node);
                 Node theNext = node.children.remove(0);
                 node = theNext;
@@ -1843,16 +1843,43 @@ public class Solution {
         return res;
     }
 
+    public int calPoints(String[] ops) {
+        Stack<Integer> stack = new Stack<>();
+        for (String op : ops) {
+            switch (op) {
+                case "+":
+                    int second = stack.pop();
+                    int first = stack.pop();
+                    int third = first+second;
+                    stack.push(first);
+                    stack.push(second);
+                    stack.push(third);
+                    break;
+                case "C":
+                    stack.pop();
+                    break;
+                case "D":
+                    int theNext = stack.peek() * 2;
+                    stack.push(theNext);
+                    break;
+                default:
+                    stack.push(Integer.parseInt(op));
+                    break;
+            }
+        }
+        int total = 0;
+        while (!stack.isEmpty()) {
+            total += stack.pop();
+        }
+        return total;
+    }
+
+    public boolean backspaceCompare(String s, String t) {
+
+    }
+
     public static void main(String[] args) {
         Solution s = new Solution();
-        Node node1 = new Node(1);
-        Node node2 = new Node(2);
-        Node node3 = new Node(3);
-        Node node4 = new Node(4);
-        Node node5 = new Node(5);
-        Node node6 = new Node(6);
-        node1.children = Stream.of(node3, node2, node4).collect(Collectors.toList());
-        node3.children = Stream.of(node5, node6).collect(Collectors.toList());
-        s.postorder(node1);
+        System.out.println(s.calPoints(new String[]{"5","-2","4","C","D","9","+","+"}));
     }
 }
