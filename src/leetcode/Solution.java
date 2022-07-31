@@ -18,7 +18,7 @@ public class Solution {
         for (int i = 0; i < nums.length; i++) {
             int key = target - nums[i];
             if (map.containsKey(key)) {
-                return new int[] {map.get(key), i};
+                return new int[]{map.get(key), i};
             }
             map.put(nums[i], i);
         }
@@ -301,13 +301,13 @@ public class Solution {
                 if (target - numbers[i] > numbers[mid]) {
                     left = mid + 1;
                 } else if (target - numbers[i] == numbers[mid]) {
-                    return new int[] {i, mid};
+                    return new int[]{i, mid};
                 } else {
                     right = mid - 1;
                 }
             }
         }
-        return new int[] {-1, -1};
+        return new int[]{-1, -1};
     }
 
     /**
@@ -704,7 +704,7 @@ public class Solution {
             current = current + nums[i + k] - nums[i];
             max = Math.max(max, current);
         }
-        return (double)max / k;
+        return (double) max / k;
     }
 
     /**
@@ -812,7 +812,7 @@ public class Solution {
                 map.get(nums[i])[0]++;
                 map.get(nums[i])[2] = i;
             } else {
-                map.put(nums[i], new int[] {1, i, i});
+                map.put(nums[i], new int[]{1, i, i});
             }
         }
         int maxNum = 0;
@@ -1035,10 +1035,10 @@ public class Solution {
         }
         for (int j = 0; j < B.length; j++) {
             if (aMap.containsValue(B[j])) {
-                return new int[] {B[j] - b, B[j]};
+                return new int[]{B[j] - b, B[j]};
             }
         }
-        return new int[] {a, b};
+        return new int[]{a, b};
     }
 
     // 官方方法
@@ -1053,7 +1053,7 @@ public class Solution {
         for (int y : B) {
             int x = y + k;
             if (aMap.contains(x)) {
-                return new int[] {x, y};
+                return new int[]{x, y};
             }
         }
         return null;
@@ -1121,7 +1121,8 @@ public class Solution {
         int val;
         ListNode next;
 
-        ListNode() {}
+        ListNode() {
+        }
 
         ListNode(int val) {
             this.val = val;
@@ -1138,6 +1139,22 @@ public class Solution {
         }
     }
 
+    static class Node{
+        public int val;
+        public List<Node> children;
+
+        public Node() {}
+
+        public Node(int val) {
+            val = val;
+        }
+
+        public Node(int _val, List<Node> children) {
+            this.val = _val;
+            this.children = children;
+        }
+
+    }
     // public void reorderList(ListNode head) {
     // Deque<Integer> deque = new ArrayDeque<>();
     // ListNode node = head;
@@ -1170,7 +1187,8 @@ public class Solution {
         TreeNode left;
         TreeNode right;
 
-        TreeNode() {}
+        TreeNode() {
+        }
 
         TreeNode(int val) {
             this.val = val;
@@ -1185,7 +1203,7 @@ public class Solution {
 
     /**
      * 114. 二叉树展开为链表
-     * 
+     *
      * @param root
      */
     /*    public void flatten(TreeNode root) {
@@ -1226,7 +1244,7 @@ public class Solution {
 
     /**
      * 剑指 Offer II 038. 每日温度
-     * 
+     *
      * @param temperatures
      * @return
      */
@@ -1314,7 +1332,7 @@ public class Solution {
 
     /**
      * 剑指 Offer II 026. 重排链表
-     * 
+     *
      * @param head
      */
 
@@ -1397,7 +1415,7 @@ public class Solution {
 
     /**
      * 445. 两数相加 II
-     * 
+     *
      * @param l1
      * @param l2
      */
@@ -1431,7 +1449,7 @@ public class Solution {
 
     /**
      * 456. 132 模式
-     * 
+     *
      * @param nums
      * @return
      */
@@ -1481,7 +1499,6 @@ public class Solution {
     // }
     // return false;
     // }
-
     public boolean find132pattern(int[] nums) {
         int n = nums.length;
         List<Integer> candidateI = new ArrayList<Integer>();
@@ -1551,7 +1568,7 @@ public class Solution {
 
     /**
      * 503. 下一个更大元素 II
-     * 
+     *
      * @param nums
      * @return
      */
@@ -1610,14 +1627,15 @@ public class Solution {
 
 
     int res = 0;
+
     public int sumRootToLeaf(TreeNode root) {
-         sumRootToLeaf(root, 0);
+        sumRootToLeaf(root, 0);
         return res;
     }
 
     private void sumRootToLeaf(TreeNode node, int presum) {
         if (node == null) {
-            return ;
+            return;
         }
         presum = presum * 2 + node.val;
         if (node.left == null && node.right == null) {
@@ -1642,8 +1660,105 @@ public class Solution {
         postOrder(node.right, res);
         res.add(node.val);
     }
+
+
+    public boolean isPalindrome(ListNode head) {
+        Stack<Integer> stack = new Stack<>();
+        ListNode node = head;
+        while (node != null) {
+            stack.push(node.val);
+            node = node.next;
+        }
+        int count = stack.size() / 2;
+        while (count >= 0 && head != null) {
+            count--;
+            if (stack.pop() == head.val) {
+                head = head.next;
+            } else {
+                return false;
+            }
+        }
+        return true;
+
+    }
+/*
+
+    // next greater element
+    public int[] nextGreaterElement(int[] nums1, int[] nums2) {
+        int[] result = new int[nums1.length];
+        Arrays.fill(result, -1);
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < nums2.length; i++) {
+            map.put(nums2[i], i);
+        }
+        for (int i = 0; i < nums1.length; i++) {
+            if (map.containsKey(nums1[i])) {
+                for (int j = map.getOrDefault(nums1[i], nums2.length); j < nums2.length; j++) {
+                    if (nums2[j] > nums1[i]) {
+                        result[i] = nums2[j];
+                        break;
+                    }
+                }
+            }
+        }
+        return result;
+    }
+*/
+
+    /*public int[] nextGreaterElement(int[] nums1, int[] nums2) {
+        Map<Integer, Integer> map = new HashMap<>();
+        int[] result = new int[nums1.length];
+        for (int i = 0; i < nums2.length - 1; i++) {
+            map.put(nums2[i], -1);
+            for (int j = i+1; j < nums2.length; j++) {
+                if (nums2[j] > nums2[i]) {
+                    map.put(nums2[i], nums2[j]);
+                }
+            }
+        }
+        for (int i = 0; i < nums1.length; i++) {
+            result[i] = map.getOrDefault(nums1[i],-1);
+        }
+        return result;
+    }*/
+    public int[] nextGreaterElement(int[] nums1, int[] nums2) {
+        Map<Integer, Integer> map = new HashMap<>();
+        Stack<Integer> stack = new Stack<>();
+        for (int i = nums2.length - 1; i >= 0; i--) {
+            while (!stack.isEmpty() && nums2[i] > stack.peek()) {
+                stack.pop();
+            }
+            if (stack.isEmpty()) {
+                map.put(nums2[i], -1);
+            } else {
+                map.put(nums2[i], stack.peek());
+            }
+            stack.push(nums2[i]);
+        }
+        int[] result = new int[nums1.length];
+        for (int i = 0; i < nums1.length; i++) {
+            result[i] = map.get(nums1[i]);
+        }
+        return result;
+    }
+
+    public List<Integer> preorder(Node root) {
+        List<Integer> list = new ArrayList<>();
+        post(root, list);
+        return list;
+    }
+
+    public void post(Node node, List<Integer> list) {
+        if (node != null) {
+            list.add(node.val);
+            List<Node> children = node.children;
+            for (Node child : children) {
+                post(child,list);
+            }
+        }
+    }
     public static void main(String[] args) {
         Solution s = new Solution();
-        s.sortedArrayToBST(new int[] {1, 3});
+        s.nextGreaterElement(new int[]{4,1,2},new int[]{1,3,4,2});
     }
 }
