@@ -1913,9 +1913,48 @@ public class Solution {
         return true;
     }
 
+    private TreeNode node;
+    public TreeNode increasingBST(TreeNode root) {
+        if (root == null) {
+            return null;
+        }
+        TreeNode node = new TreeNode(-1);
+        this.node = node;
+        helper( root);
+        return this.node.right;
+    }
+
+    private void helper( TreeNode originalNode) {
+        if (originalNode == null) {
+            return;
+        }
+        helper( originalNode.left);
+        node.right = originalNode;
+        node.left = null;
+        node = originalNode;
+        helper( originalNode.right);
+    }
+
+    /**
+     * 1475. 商品折扣后的最终价格
+     * @param prices
+     * @return
+     */
+    public int[] finalPrices(int[] prices) {
+        Stack<Integer> stack = new Stack<>();
+        for (int i = 0; i < prices.length; i++) {
+            while (!stack.isEmpty() && prices[stack.peek()] > prices[i]) {
+                int index = stack.pop();
+                prices[index] = prices[index] - prices[i];
+            }
+            stack.push(i);
+        }
+        return prices;
+    }
+
+
     public static void main(String[] args) {
-        Solution s = new Solution();
-        System.out.println(s.backspaceCompare("a##c", "#a#c"));
-        System.out.println(s.backspaceCompare("y#fo##f", "y#f#o##f"));
+
+
     }
 }
