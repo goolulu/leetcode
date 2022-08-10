@@ -1952,9 +1952,35 @@ public class Solution {
         return prices;
     }
 
+    /**
+     * 1544. 整理字符串
+     * @param s
+     * @return
+     */
+    public String makeGood(String s) {
+        Deque<Character> stack = new LinkedList<>();
+        int i =0;
+        while (i<s.length()) {
+            char c = s.charAt(i);
+            if (!stack.isEmpty() && ((stack.peek() + 32 == c) || (stack.peek() - 32 == c))) {
+                stack.pop();
+            } else {
+                stack.push(c);
+            }
+           i++;
+        }
+        String res = "";
+        while (!stack.isEmpty()) {
+            res += stack.pollLast();
+        }
+        return res;
+    }
+
+
 
     public static void main(String[] args) {
-
+        Solution s = new Solution();
+        s.makeGood("leEeetcode");
 
     }
 }
