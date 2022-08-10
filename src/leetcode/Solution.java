@@ -1,5 +1,8 @@
 package leetcode;
 
+import leetcode.struct.ListNode;
+import leetcode.struct.TreeNode;
+
 import java.util.*;
 
 /**
@@ -1117,27 +1120,7 @@ public class Solution {
         return index;
     }
 
-    static class ListNode {
-        int val;
-        ListNode next;
 
-        ListNode() {
-        }
-
-        ListNode(int val) {
-            this.val = val;
-        }
-
-        ListNode(int val, ListNode next) {
-            this.val = val;
-            this.next = next;
-        }
-
-        @Override
-        public String toString() {
-            return "ListNode{" + "val=" + val + ", next=" + next + '}';
-        }
-    }
 
     static class Node {
         public int val;
@@ -1182,26 +1165,6 @@ public class Solution {
     //
     // System.out.println(head);
     // }
-
-    static class TreeNode {
-        int val;
-        TreeNode left;
-        TreeNode right;
-
-        TreeNode() {
-        }
-
-        TreeNode(int val) {
-            this.val = val;
-        }
-
-        TreeNode(int val, TreeNode left, TreeNode right) {
-            this.val = val;
-            this.left = left;
-            this.right = right;
-        }
-    }
-
     /**
      * 114. 二叉树展开为链表
      *
