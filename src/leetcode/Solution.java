@@ -886,12 +886,14 @@ public class Solution {
 
         int maxIndex = 0;
         for (int i = 0; i < nums.length; ++i) {
-            if (nums[i] > nums[maxIndex])
+            if (nums[i] > nums[maxIndex]) {
                 maxIndex = i;
+            }
         }
         for (int i = 0; i < nums.length; ++i) {
-            if (maxIndex != i && nums[maxIndex] < 2 * nums[i])
+            if (maxIndex != i && nums[maxIndex] < 2 * nums[i]) {
                 return -1;
+            }
         }
         return maxIndex;
     }
@@ -1121,7 +1123,6 @@ public class Solution {
     }
 
 
-
     static class Node {
         public int val;
         public List<Node> children;
@@ -1165,6 +1166,7 @@ public class Solution {
     //
     // System.out.println(head);
     // }
+
     /**
      * 114. 二叉树展开为链表
      *
@@ -1877,29 +1879,31 @@ public class Solution {
     }
 
     private TreeNode node;
+
     public TreeNode increasingBST(TreeNode root) {
         if (root == null) {
             return null;
         }
         TreeNode node = new TreeNode(-1);
         this.node = node;
-        helper( root);
+        helper(root);
         return this.node.right;
     }
 
-    private void helper( TreeNode originalNode) {
+    private void helper(TreeNode originalNode) {
         if (originalNode == null) {
             return;
         }
-        helper( originalNode.left);
+        helper(originalNode.left);
         node.right = originalNode;
         node.left = null;
         node = originalNode;
-        helper( originalNode.right);
+        helper(originalNode.right);
     }
 
     /**
      * 1475. 商品折扣后的最终价格
+     *
      * @param prices
      * @return
      */
@@ -1917,20 +1921,21 @@ public class Solution {
 
     /**
      * 1544. 整理字符串
+     *
      * @param s
      * @return
      */
     public String makeGood(String s) {
         Deque<Character> stack = new LinkedList<>();
-        int i =0;
-        while (i<s.length()) {
+        int i = 0;
+        while (i < s.length()) {
             char c = s.charAt(i);
             if (!stack.isEmpty() && ((stack.peek() + 32 == c) || (stack.peek() - 32 == c))) {
                 stack.pop();
             } else {
                 stack.push(c);
             }
-           i++;
+            i++;
         }
         String res = "";
         while (!stack.isEmpty()) {
@@ -1939,11 +1944,60 @@ public class Solution {
         return res;
     }
 
+    /**
+     * 227. 基本计算器 II
+     *
+     * @param s
+     * @return
+     * @result 没做出来
+     */
+    public int calculate(String s) {
+        //todo
+        return 0;
+    }
 
+    /**
+     * 去除重复字母
+     * @param s
+     * @return
+     * @result 没做出来
+     */
+    public String removeDuplicateLetters(String s) {
+        boolean[] vis = new boolean[26];
+        Arrays.fill(vis, false);
+        int[] nums = new int[26];
+        for (int i = 0; i < s.length(); i++) {
+            nums[s.charAt(i) - 'a']++;
+        }
+        Stack<Character> stack = new Stack<>();
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (!vis[c - 'a']) {
+                while (!stack.isEmpty() && c < stack.peek()) {
+                    char del = stack.peek();
+                    if (nums[del - 'a'] > 0) {
+                        stack.pop();
+                        vis[del - 'a'] = false;
+                    } else {
+                        break;
+                    }
+                }
+                stack.push(c);
+                vis[c - 'a'] = true;
+
+            }
+            nums[c - 'a']--;
+        }
+        StringBuilder stringBuilder = new StringBuilder();
+        while (!stack.isEmpty()) {
+            stringBuilder.append(stack.pop());
+        }
+        return stringBuilder.reverse().toString();
+    }
 
     public static void main(String[] args) {
         Solution s = new Solution();
-        s.makeGood("leEeetcode");
+        System.out.println(s.removeDuplicateLetters("cbacdcbc"));
 
     }
 }
