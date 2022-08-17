@@ -1,6 +1,7 @@
 package leetcode;
 
 import leetcode.struct.ListNode;
+import leetcode.struct.NestedInteger;
 import leetcode.struct.TreeNode;
 
 import java.util.*;
@@ -1958,6 +1959,7 @@ public class Solution {
 
     /**
      * 去除重复字母
+     *
      * @param s
      * @return
      * @result 没做出来
@@ -1994,6 +1996,48 @@ public class Solution {
         }
         return stringBuilder.reverse().toString();
     }
+
+    /**
+     * 验证二叉树的前序序列化
+     *
+     * @param preorder
+     * @return
+     */
+    public boolean isValidSerialization(String preorder) {
+
+        int n = preorder.length();
+        int i = 0;
+        Deque<Integer> stack = new LinkedList<Integer>();
+        stack.push(1);
+        while (i < n) {
+            if (stack.isEmpty()) {
+                return false;
+            }
+            if (preorder.charAt(i) == ',') {
+                i++;
+            } else if (preorder.charAt(i) == '#') {
+                int top = stack.pop() - 1;
+                if (top > 0) {
+                    stack.push(top);
+                }
+                i++;
+            } else {
+                // 读一个数字
+                while (i < n && preorder.charAt(i) != ',') {
+                    i++;
+                }
+                int top = stack.pop() - 1;
+                if (top > 0) {
+                    stack.push(top);
+                }
+                stack.push(2);
+            }
+        }
+        return stack.isEmpty();
+
+    }
+
+
 
     public static void main(String[] args) {
         Solution s = new Solution();
