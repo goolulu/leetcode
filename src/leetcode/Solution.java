@@ -1,8 +1,6 @@
 package leetcode;
 
 import leetcode.struct.ListNode;
-import leetcode.struct.NestedInteger;
-import leetcode.struct.NestedInteger;
 import leetcode.struct.TreeNode;
 
 import java.util.*;
@@ -13,6 +11,19 @@ import java.util.*;
  * @date 2021/4/9 18:37
  */
 public class Solution {
+    List<TreeNode> list = new LinkedList<>();
+    int res = 0;
+    private TreeNode node;
+
+    public static void main(String[] args) {
+        Solution s = new Solution();
+        System.out.println(s.asteroidCollision(new int[]{5,10,-5}));
+        System.out.println(s.asteroidCollision(new int[]{8,-8}));
+        System.out.println(s.asteroidCollision(new int[]{10,2,-5}));
+        System.out.println(s.asteroidCollision(new int[]{-2,-1,1,2}));
+
+    }
+
     /**
      * 1. 两数之和
      *
@@ -390,6 +401,21 @@ public class Solution {
         }
         return result;
     }
+    // 官方
+    /*public void moveZeroes(int[] nums) {
+        int i =0;
+        int j = 0;
+        while (j < nums.length) {
+            if (nums[j] != 0) {
+                int temp = nums[j];
+                nums[j] =nums[i];
+                nums[i] = temp;
+                i++;
+            }
+            j++;
+        }
+        System.out.println("ok");
+    }*/
 
     /**
      * @Description: 219. 存在重复元素 II
@@ -498,21 +524,6 @@ public class Solution {
             }
         }
     }
-    // 官方
-    /*public void moveZeroes(int[] nums) {
-        int i =0;
-        int j = 0;
-        while (j < nums.length) {
-            if (nums[j] != 0) {
-                int temp = nums[j];
-                nums[j] =nums[i];
-                nums[i] = temp;
-                i++;
-            }
-            j++;
-        }
-        System.out.println("ok");
-    }*/
 
     /**
      * @Description: 414. 第三大的数
@@ -665,6 +676,14 @@ public class Solution {
     }
 
     /**
+     * @Description: 665. 非递减数列
+     * @Param:
+     * @return:
+     * @Author: huang
+     * @Date: 2021/4/16-19:31
+     */
+
+    /**
      * @Description:
      * @Param:
      * @return:
@@ -740,14 +759,6 @@ public class Solution {
         }
         return result;
     }
-
-    /**
-     * @Description: 665. 非递减数列
-     * @Param:
-     * @return:
-     * @Author: huang
-     * @Date: 2021/4/16-19:31
-     */
 
     /**
      * @Description: 674. 最长连续递增序列
@@ -1065,6 +1076,32 @@ public class Solution {
         }
         return null;
     }
+    // public void reorderList(ListNode head) {
+    // Deque<Integer> deque = new ArrayDeque<>();
+    // ListNode node = head;
+    // while (node != null) {
+    //
+    // deque.addFirst(node.val);
+    // node = node.next;
+    // }
+    // // true 从下面开始，false 从上面开始
+    // boolean flag = false;
+    // deque.pollLast();
+    // ListNode node1 = head;
+    // while (deque.size() > 0) {
+    // ListNode temp = node1.next;
+    // if (flag) {
+    // temp.val = deque.pollLast();
+    // flag = false;
+    // } else {
+    // temp.val = deque.pollFirst();
+    // flag = true;
+    // }
+    // node1 = temp;
+    // }
+    //
+    // System.out.println(head);
+    // }
 
     /**
      * @Description: 896. 单调数列
@@ -1124,51 +1161,6 @@ public class Solution {
         return index;
     }
 
-
-    static class Node {
-        public int val;
-        public List<Node> children;
-
-        public Node() {
-        }
-
-        public Node(int val) {
-            this.val = val;
-        }
-
-        public Node(int _val, List<Node> children) {
-            this.val = _val;
-            this.children = children;
-        }
-
-    }
-    // public void reorderList(ListNode head) {
-    // Deque<Integer> deque = new ArrayDeque<>();
-    // ListNode node = head;
-    // while (node != null) {
-    //
-    // deque.addFirst(node.val);
-    // node = node.next;
-    // }
-    // // true 从下面开始，false 从上面开始
-    // boolean flag = false;
-    // deque.pollLast();
-    // ListNode node1 = head;
-    // while (deque.size() > 0) {
-    // ListNode temp = node1.next;
-    // if (flag) {
-    // temp.val = deque.pollLast();
-    // flag = false;
-    // } else {
-    // temp.val = deque.pollFirst();
-    // flag = true;
-    // }
-    // node1 = temp;
-    // }
-    //
-    // System.out.println(head);
-    // }
-
     /**
      * 114. 二叉树展开为链表
      *
@@ -1199,8 +1191,6 @@ public class Solution {
 
         }
     }
-
-    List<TreeNode> list = new LinkedList<>();
 
     private void presort(TreeNode root) {
         if (root != null) {
@@ -1254,6 +1244,27 @@ public class Solution {
         TreeNode root = buildTree(nums, 0, nums.length);
         return root;
     }
+    // public TreeNode constructMaximumBinaryTree(int[] nums) {
+    // TreeNode root = construct(nums, 0, nums.length);
+    // return root;
+    // }
+    // public TreeNode construct(int[] nums, int l, int r) {
+    // if (l == r)
+    // return null;
+    // int max_i = max(nums, l, r);
+    // TreeNode root = new TreeNode(nums[max_i]);
+    // root.left = construct(nums, l, max_i);
+    // root.right = construct(nums, max_i + 1, r);
+    // return root;
+    // }
+    // public int max(int[] nums, int l, int r) {
+    // int max_i = l;
+    // for (int i = l; i < r; i++) {
+    // if (nums[max_i] < nums[i])
+    // max_i = i;
+    // }
+    // return max_i;
+    // }
 
     private TreeNode buildTree(int[] nums, int left, int right) {
         if (left == right) {
@@ -1276,27 +1287,6 @@ public class Solution {
         }
         return maxIndex;
     }
-    // public TreeNode constructMaximumBinaryTree(int[] nums) {
-    // TreeNode root = construct(nums, 0, nums.length);
-    // return root;
-    // }
-    // public TreeNode construct(int[] nums, int l, int r) {
-    // if (l == r)
-    // return null;
-    // int max_i = max(nums, l, r);
-    // TreeNode root = new TreeNode(nums[max_i]);
-    // root.left = construct(nums, l, max_i);
-    // root.right = construct(nums, max_i + 1, r);
-    // return root;
-    // }
-    // public int max(int[] nums, int l, int r) {
-    // int max_i = l;
-    // for (int i = l; i < r; i++) {
-    // if (nums[max_i] < nums[i])
-    // max_i = i;
-    // }
-    // return max_i;
-    // }
 
     /**
      * 剑指 Offer II 026. 重排链表
@@ -1593,9 +1583,6 @@ public class Solution {
         return root;
     }
 
-
-    int res = 0;
-
     public int sumRootToLeaf(TreeNode root) {
         sumRootToLeaf(root, 0);
         return res;
@@ -1628,27 +1615,6 @@ public class Solution {
         postOrder(node.right, res);
         res.add(node.val);
     }
-
-
-    public boolean isPalindrome(ListNode head) {
-        Stack<Integer> stack = new Stack<>();
-        ListNode node = head;
-        while (node != null) {
-            stack.push(node.val);
-            node = node.next;
-        }
-        int count = stack.size() / 2;
-        while (count >= 0 && head != null) {
-            count--;
-            if (stack.pop() == head.val) {
-                head = head.next;
-            } else {
-                return false;
-            }
-        }
-        return true;
-
-    }
 /*
 
     // next greater element
@@ -1672,6 +1638,26 @@ public class Solution {
         return result;
     }
 */
+
+    public boolean isPalindrome(ListNode head) {
+        Stack<Integer> stack = new Stack<>();
+        ListNode node = head;
+        while (node != null) {
+            stack.push(node.val);
+            node = node.next;
+        }
+        int count = stack.size() / 2;
+        while (count >= 0 && head != null) {
+            count--;
+            if (stack.pop() == head.val) {
+                head = head.next;
+            } else {
+                return false;
+            }
+        }
+        return true;
+
+    }
 
     /*public int[] nextGreaterElement(int[] nums1, int[] nums2) {
         Map<Integer, Integer> map = new HashMap<>();
@@ -1880,8 +1866,6 @@ public class Solution {
         return true;
     }
 
-    private TreeNode node;
-
     public TreeNode increasingBST(TreeNode root) {
         if (root == null) {
             return null;
@@ -2040,6 +2024,7 @@ public class Solution {
 
     /**
      * 581. 最短无序连续子数组
+     *
      * @param nums
      * @return
      */
@@ -2058,16 +2043,64 @@ public class Solution {
             if (nums[nums.length - i - 1] <= min) {
                 min = nums[nums.length - i - 1];
             } else {
-                end = nums.length - i -1;
+                end = nums.length - i - 1;
             }
         }
         return begin == -1 ? 0 : begin - end + 1;
     }
 
+    /**
+     * 735. 行星碰撞
+     *
+     * @param asteroids
+     * @return
+     */
+    public int[] asteroidCollision(int[] asteroids) {
+        Deque<Integer> stack = new LinkedList<>();
+        for (int i = 0; i < asteroids.length; i++) {
+            int asteroid = asteroids[i];
+            if (asteroid < 0) {
+                while (!stack.isEmpty() && stack.peek() > 0 && asteroid < 0) {
+                    int top = stack.pop();
+                    if (top < Math.abs(asteroid)) {
 
-    public static void main(String[] args) {
-        Solution s = new Solution();
-        System.out.println(s.findUnsortedSubarray(new int[]{1,3,2,2,2}));
+                    } else if (top > Math.abs(asteroid)) {
+                        asteroid = 0;
+                        stack.push(top);
+                    } else {
+                        asteroid = 0;
+                    }
+                }
+                if (asteroid != 0) {
+                    stack.push(asteroid);
+                }
+            } else {
+                stack.push(asteroid);
+            }
+        }
+        int j = 0;
+        int[] ret = new int[stack.size()];
+        while (!stack.isEmpty()) {
+            ret[j++] = stack.pollLast();
+        }
+        return ret;
+    }
+
+    static class Node {
+        public int val;
+        public List<Node> children;
+
+        public Node() {
+        }
+
+        public Node(int val) {
+            this.val = val;
+        }
+
+        public Node(int _val, List<Node> children) {
+            this.val = _val;
+            this.children = children;
+        }
 
     }
 }
