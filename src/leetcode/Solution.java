@@ -2,6 +2,7 @@ package leetcode;
 
 import leetcode.struct.ListNode;
 import leetcode.struct.NestedInteger;
+import leetcode.struct.NestedInteger;
 import leetcode.struct.TreeNode;
 
 import java.util.*;
@@ -2037,11 +2038,36 @@ public class Solution {
 
     }
 
+    /**
+     * 581. 最短无序连续子数组
+     * @param nums
+     * @return
+     */
+    public int findUnsortedSubarray(int[] nums) {
+        int begin = -1;
+        int end = -1;
+        int max = Integer.MIN_VALUE;
+        int min = Integer.MAX_VALUE;
+
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] >= max) {
+                max = nums[i];
+            } else {
+                begin = i;
+            }
+            if (nums[nums.length - i - 1] <= min) {
+                min = nums[nums.length - i - 1];
+            } else {
+                end = nums.length - i -1;
+            }
+        }
+        return begin == -1 ? 0 : begin - end + 1;
+    }
 
 
     public static void main(String[] args) {
         Solution s = new Solution();
-        System.out.println(s.removeDuplicateLetters("cbacdcbc"));
+        System.out.println(s.findUnsortedSubarray(new int[]{1,3,2,2,2}));
 
     }
 }
