@@ -17,10 +17,7 @@ public class Solution {
 
     public static void main(String[] args) {
         Solution s = new Solution();
-        System.out.println(s.asteroidCollision(new int[]{5,10,-5}));
-        System.out.println(s.asteroidCollision(new int[]{8,-8}));
-        System.out.println(s.asteroidCollision(new int[]{10,2,-5}));
-        System.out.println(s.asteroidCollision(new int[]{-2,-1,1,2}));
+        System.out.println(s.firstUniqChar("loveleetcode"));
 
     }
 
@@ -2084,6 +2081,115 @@ public class Solution {
             ret[j++] = stack.pollLast();
         }
         return ret;
+    }
+
+    /**
+     * 769. 最多能完成排序的块
+     *
+     * @param arr
+     * @return
+     */
+    public int maxChunksToSorted(int[] arr) {
+        int ans = 0;
+        int max = 0;
+        for (int i = 0; i < arr.length; i++) {
+            max = Math.max(max, arr[i]);
+            if (max == i) {
+                ans++;
+            }
+        }
+        return ans;
+    }
+
+    /**
+     * 907. 子数组的最小值之和
+     *
+     * @param arr
+     * @return
+     */
+    public int sumSubarrayMins(int[] arr) {
+        int MOD = 1_000_000_007;
+        int[] preSmaller = new int[arr.length];
+        int[] nextSmaller = new int[arr.length];
+        Stack<Integer> stack = new Stack<>();
+        for (int i = 0; i < arr.length; i++) {
+            while (!stack.isEmpty() && arr[i] <= arr[stack.peek()]) {
+                stack.pop();
+            }
+            preSmaller[i] = stack.isEmpty() ? -1 : stack.peek();
+            stack.push(i);
+        }
+        stack.clear();
+        for (int i = arr.length - 1; i >= 0; i--) {
+            while (!stack.isEmpty() && arr[i] < arr[stack.peek()]) {
+                stack.pop();
+            }
+            nextSmaller[i] = stack.isEmpty() ? arr.length : stack.peek();
+            stack.push(i);
+        }
+
+
+        long ans = 0;
+        for (int i = 0; i < arr.length; i++) {
+            ans += (long) (i - preSmaller[i]) * (nextSmaller[i] - i) % MOD * arr[i] % MOD;
+            ans %= MOD;
+        }
+        return (int) ans;
+    }
+
+    /**
+     * 动态规划，
+     *
+     * @param
+     * @return
+     */
+//    public int sumSubarrayMins1(int[] array) {
+//        int MOD = 1_000_000_007;
+//        int[] dp = new int[array.length];
+//        int[] right = new int[array.length];
+//        Stack<Integer> stack = new Stack<>();
+//        for (int i = 0; i < right.length; i++) {
+//            right[i] = i;
+//        }
+//
+//        for (int i = 0; i < array.length; i++) {
+//            while (!stack.isEmpty() && array[i] < array[stack.peek()]) {
+//                int index = stack.pop();
+//                right[index]= i;
+//            }
+//            stack.push(i);
+//        }
+//
+//        int sum = 0;
+//        dp[array.length - 1] = array[array.length - 1];
+//        for (int i = array.length - 2; i >= 0; i--) {
+//            if (right[i] == i) {
+//                dp[i] = (array.length - right[i]) * array[right[i]] ;
+//            } else {
+//                int upto_smaller = (right[i] - i) * array[i];
+//                dp[i] = upto_smaller + dp[right[i]];
+//            }
+//        }
+//        return Arrays.stream(dp).sum();
+//    }
+    public int maxWidthRamp(int[] nums) {
+        Stack<Integer> stack = new Stack<>();
+        for (int i = 0; i < nums.length; i++) {
+            if (stack.isEmpty() || nums[stack.peek()] > nums[i]) {
+                stack.push(i);
+            }
+        }
+        int ans = 0;
+        for (int i = nums.length-1; i >=0 ; i--) {
+            while (!stack.isEmpty() && nums[i] >=  nums[stack.peek()]) {
+                ans = Math.max(ans, i - stack.pop());
+            }
+        }
+        return ans;
+    }
+
+    public int firstUniqChar(String s) {
+
     }
 
     static class Node {
