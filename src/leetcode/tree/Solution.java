@@ -4,9 +4,7 @@ import leetcode.struct.ListNode;
 import leetcode.struct.TreeNode;
 import sun.reflect.generics.tree.Tree;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 public class Solution {
 
@@ -83,28 +81,93 @@ public class Solution {
     }
 
 
+    public int maxDepth(TreeNode root) {
+        if (root == null) {
+            return 0;
+        } else {
+            int leftDepth = maxDepth(root.left);
+            int rightDepth = maxDepth(root.right);
+            return Math.max(leftDepth, rightDepth) + 1;
+        }
+    }
+
+    public boolean isBalanced(TreeNode root) {
+        if (root == null) {
+            return true;
+        } else {
+            return Math.abs(maxDepth(root.left) - maxDepth(root.right)) <= 1 && isBalanced(root.left) && isBalanced(root.right);
+        }
+    }
+
+    public int minDepth_Recursive(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        if (root.left == null && root.right == null) {
+            return 1;
+        }
+        int min = Integer.MAX_VALUE;
+        if (root.left != null) {
+            min = Math.min(minDepth_Recursive(root.left), min);
+        }
+        if (root.right != null) {
+            min = Math.min(minDepth_Recursive(root.right), min);
+        }
+        return min + 1;
+    }
+    public int minDepth_iteration(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        Deque<TreeNode> stack = new LinkedList<>();
+        stack.add(root);
+        int depth = 1;
+        while (!stack.isEmpty()) {
+            int size = stack.size();
+            for (int i = 0; i < stack.size(); i++) {
+                TreeNode node = stack.poll();
+                if (node.left == null && node.right == null) {
+                    return depth;
+                }
+                if (node.right != null) {
+                    stack.offer(node.right);
+                }
+                if (node.left != null) {
+                    stack.offer(node.left);
+                }
+            }
+            depth++;
+        }
+        return depth;
+    }
 
     public static void main(String[] args) {
-        TreeNode node1 = new TreeNode(1);
-        TreeNode node2 = new TreeNode(2);
-        TreeNode node3 = new TreeNode(2);
-        TreeNode node4 = new TreeNode(3);
-        TreeNode node5 = new TreeNode(4);
+        TreeNode node1 = new TreeNode(3);
+        TreeNode node2 = new TreeNode(9);
+        TreeNode node3 = new TreeNode(20);
+        TreeNode node4 = new TreeNode(15);
+        TreeNode node5 = new TreeNode(7);
         TreeNode node6 = new TreeNode(4);
-        TreeNode node7 = new TreeNode(3);
+        TreeNode node7 = new TreeNode(4);
 
 
         node1.left = node2;
         node1.right = node3;
 
-        node2.left = node4;
-        node2.right = node5;
+//        node2.left = node4;
+        node3.left = node4;
+        node3.right = node5;
+//        node5.right = node7;
 
-        node3.left = node6;
-        node3.right = node7;
+//        node3.left = node4;
+//        node3.right = node5;
+//
+//        node4.left = node6;
+//        node4.right = node7;
 
         Solution solution = new Solution();
 
-        solution.isSymmetric(node1);
+
+
     }
 }
