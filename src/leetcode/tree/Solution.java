@@ -141,22 +141,87 @@ public class Solution {
         return depth;
     }
 
+    /**
+     * 112.路径总和
+     * @param root
+     * @param targetSum
+     * @return
+     */
+    public boolean hasPathSum_iteration(TreeNode root, int targetSum) {
+        if (root == null) {
+            return false;
+        }
+        Queue<QueueNode> queue = new LinkedList<>();
+        queue.offer(new QueueNode(targetSum,root));
+
+        int temp = targetSum;
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            for (int i = 0; i < size; i++) {
+                QueueNode cur = queue.poll();
+                if (cur.node.left != null && Math.abs(cur.node.val) <= Math.abs(cur.value)) {
+                    queue.offer(new QueueNode(cur.value - cur.node.val,cur.node.left) );
+                }
+
+                if (cur.node.right != null && Math.abs(cur.node.val) <= Math.abs(cur.value)) {
+                    queue.offer(new QueueNode(cur.value - cur.node.val,cur.node.right) );
+                }
+
+                if (cur.node.right == null && cur.node.left == null) {
+                    if (cur.value == cur.node.val) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+
+    }
+
+    public static class QueueNode {
+        public int value;
+        public TreeNode node;
+
+        public QueueNode(int value, TreeNode node) {
+            this.value = value;
+            this.node = node;
+        }
+    }
+
+    public boolean hasPathSum_Recursive(TreeNode root, int targetSum) {
+        if (root == null) {
+            return false;
+        }
+
+        if (root.left == null && root.right == null) {
+            return targetSum == root.val;
+        }
+
+        return hasPathSum_Recursive(root.left, targetSum - root.val) || hasPathSum_Recursive(root.right, targetSum - root.val);
+    }
+
+
     public static void main(String[] args) {
-        TreeNode node1 = new TreeNode(3);
-        TreeNode node2 = new TreeNode(9);
-        TreeNode node3 = new TreeNode(20);
-        TreeNode node4 = new TreeNode(15);
-        TreeNode node5 = new TreeNode(7);
+        TreeNode node1 = new TreeNode(5);
+        TreeNode node2 = new TreeNode(4);
+        TreeNode node3 = new TreeNode(8);
+        TreeNode node4 = new TreeNode(11);
+        TreeNode node5 = new TreeNode(13);
         TreeNode node6 = new TreeNode(4);
-        TreeNode node7 = new TreeNode(4);
+        TreeNode node7 = new TreeNode(7);
+        TreeNode node8 = new TreeNode(2);
+        TreeNode node9 = new TreeNode(1);
 
 
         node1.left = node2;
         node1.right = node3;
 
-//        node2.left = node4;
-        node3.left = node4;
-        node3.right = node5;
+        node2.left = node4;
+        node3.left = node5;
+        node3.right = node6;
+        node4.left = node7;
+        node4.right = node8;
+        node6.right = node9;
 //        node5.right = node7;
 
 //        node3.left = node4;
@@ -166,8 +231,5 @@ public class Solution {
 //        node4.right = node7;
 
         Solution solution = new Solution();
-
-
-
     }
 }
