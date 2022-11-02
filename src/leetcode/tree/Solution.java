@@ -1,8 +1,6 @@
 package leetcode.tree;
 
-import leetcode.struct.ListNode;
 import leetcode.struct.TreeNode;
-import sun.reflect.generics.tree.Tree;
 
 import java.util.*;
 
@@ -19,6 +17,7 @@ public class Solution {
             return isSameTree(p.left, q.left) && isSameTree(p.right, q.right);
         }
     }
+
     public List<Integer> preorderTraversal_Recursion(TreeNode root) {
         List<Integer> list = new ArrayList<>();
         preOrder(root, list);
@@ -54,6 +53,7 @@ public class Solution {
 
     /**
      * 101. 对称二叉树
+     *
      * @param root
      * @return
      */
@@ -115,6 +115,7 @@ public class Solution {
         }
         return min + 1;
     }
+
     public int minDepth_iteration(TreeNode root) {
         if (root == null) {
             return 0;
@@ -143,6 +144,7 @@ public class Solution {
 
     /**
      * 112.路径总和
+     *
      * @param root
      * @param targetSum
      * @return
@@ -152,7 +154,7 @@ public class Solution {
             return false;
         }
         Queue<QueueNode> queue = new LinkedList<>();
-        queue.offer(new QueueNode(targetSum,root));
+        queue.offer(new QueueNode(targetSum, root));
 
         int temp = targetSum;
         while (!queue.isEmpty()) {
@@ -160,11 +162,11 @@ public class Solution {
             for (int i = 0; i < size; i++) {
                 QueueNode cur = queue.poll();
                 if (cur.node.left != null && Math.abs(cur.node.val) <= Math.abs(cur.value)) {
-                    queue.offer(new QueueNode(cur.value - cur.node.val,cur.node.left) );
+                    queue.offer(new QueueNode(cur.value - cur.node.val, cur.node.left));
                 }
 
                 if (cur.node.right != null && Math.abs(cur.node.val) <= Math.abs(cur.value)) {
-                    queue.offer(new QueueNode(cur.value - cur.node.val,cur.node.right) );
+                    queue.offer(new QueueNode(cur.value - cur.node.val, cur.node.right));
                 }
 
                 if (cur.node.right == null && cur.node.left == null) {
@@ -202,6 +204,7 @@ public class Solution {
 
     /**
      * 226. 翻转二叉树
+     *
      * @param root
      * @return
      */
@@ -218,6 +221,195 @@ public class Solution {
         invertTree(root.right);
         return root;
     }
+
+    /**
+     * 求树的坡度和
+     *
+     * @param root
+     * @return
+     */
+    public int findTilt(TreeNode root) {
+        calval(root);
+        return ans;
+
+
+    }
+
+    int ans = 0;
+
+    public int calval(TreeNode node) {
+
+        if (node == null) {
+            return 0;
+        }
+        int sumLeft = calval(node.left);
+        int sumRight = calval(node.right);
+        ans += Math.abs(sumLeft - sumRight);
+        return sumLeft + sumRight + ans;
+
+    }
+
+    public boolean isSubtree(TreeNode root, TreeNode subRoot) {
+
+        return dfs(root, subRoot);
+    }
+
+    public boolean dfs(TreeNode root, TreeNode subRoot) {
+        if (root == null) {
+            return false;
+        }
+
+        return checkval(root, subRoot) || dfs(root.left, subRoot) || dfs(root.right, subRoot);
+
+    }
+
+    private boolean checkval(TreeNode root, TreeNode subRoot) {
+        if (root == null && subRoot == null) {
+            return true;
+        }
+        if (root == null || subRoot == null || root.val != subRoot.val) {
+            return false;
+        }
+        return checkval(root.left, subRoot.left) && checkval(root.right, subRoot.right);
+    }
+
+    private void inOrder(TreeNode node, List<Integer> list) {
+        if (node == null) {
+            return;
+        }
+        inOrder(node.left, list);
+        list.add(node.val);
+        inOrder(node.right, list);
+    }
+
+    /**
+     * 606. 根据二叉树创建字符串
+     *
+     * @param root
+     * @return
+     */
+    public String tree2str(TreeNode root) {
+        if (root == null) {
+            return "";
+        }
+        if (root.right == null && root.left == null) {
+            return Integer.toString(root.val);
+        }
+
+        if (root.right == null) {
+            return new StringBuilder().append(root.val).append("(").append(tree2str(root.left)).append(")").toString();
+        }
+        return new StringBuilder().append(root.val).append("(").
+                append(tree2str(root.left)).append(")(").append(tree2str(root.right)).append(")").toString();
+    }
+
+    int rootValue;
+
+    public int findSecondMinimumValue(TreeNode root) {
+        ans = -1;
+        rootValue = root.val;
+        dfs_findSecondMinimumValue(root);
+        return ans;
+    }
+
+    private void dfs_findSecondMinimumValue(TreeNode node) {
+        if (node == null) {
+            return;
+        }
+        if (ans != -1 && node.val >= ans) {
+            return;
+        }
+        if (node.val > rootValue) {
+            ans = node.val;
+        }
+        dfs_findSecondMinimumValue(node.left);
+        dfs_findSecondMinimumValue(node.right);
+    }
+
+    public TreeNode searchBST(TreeNode root, int val) {
+        if (root.val > val) {
+            return searchBST(root.right, val);
+        }
+        if (root.val < val) {
+            return searchBST(root.left, val);
+        }
+        if (root.val == val) {
+            return root;
+        }
+        return null;
+    }
+
+    int pre;
+
+    public int minDiffInBST(TreeNode root) {
+        pre = -1;
+        ans = Integer.MAX_VALUE;
+        inOrder_minDiffInBST(root);
+        return ans;
+    }
+
+    private void inOrder_minDiffInBST(TreeNode node) {
+        if (node == null) {
+            return;
+        }
+        inOrder_minDiffInBST(node.left);
+        if (pre == -1) {
+            pre = node.val;
+        } else {
+            ans = Math.min(node.val - pre, ans);
+            pre = node.val;
+        }
+        inOrder_minDiffInBST(node.right);
+
+    }
+
+    /**
+     * 993. 二叉树的堂兄弟节点
+     *
+     * @param root
+     * @param x
+     * @param y
+     * @return
+     */
+    int depthX = 0;
+    int depthY = 0;
+    TreeNode preNodeX;
+    TreeNode preNodeY;
+
+    public boolean isCousins(TreeNode root, int x, int y) {
+
+        dfs_isCousins(root, null, x, y);
+        return depthX == depthY && preNodeX != preNodeY;
+    }
+
+    private void dfs_isCousins(TreeNode node, TreeNode preNode, int x, int y) {
+        if (node == null) {
+            return;
+        }
+        int depth = depthCal(node);
+        System.out.printf("node depth：%s val:%s \n", depth, node.val);
+        if (node.val == x) {
+            depthX = depth;
+            preNodeX = preNode;
+        }
+        if (node.val == y) {
+            depthY = depth;
+            preNodeY = preNode;
+        }
+        dfs_isCousins(node.left, node, x, y);
+        dfs_isCousins(node.right, node, x, y);
+    }
+
+    private int depthCal(TreeNode node) {
+        if (node == null) {
+            return 0;
+        }
+        int left = depthCal(node.left);
+        int right = depthCal(node.right);
+        return Math.max(left, right) + 1;
+    }
+
+
 
     public static void main(String[] args) {
         TreeNode node1 = new TreeNode(4);
