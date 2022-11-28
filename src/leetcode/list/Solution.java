@@ -70,6 +70,7 @@ public class Solution {
 
     /**
      * 剑指 Offer 18. 删除链表的节点
+     *
      * @param head
      * @param val
      * @return
@@ -84,7 +85,7 @@ public class Solution {
                 prev.next = p.next;
                 break;
             }
-            prev  = p;
+            prev = p;
             p = p.next;
         }
         return dummy.next;
@@ -107,6 +108,7 @@ public class Solution {
         ListNode p = node;
 
     }
+
     public static void main(String[] args) {
         ListNode node1 = new ListNode(4);
         ListNode node2 = new ListNode(5);
