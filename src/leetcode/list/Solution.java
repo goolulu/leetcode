@@ -109,6 +109,43 @@ public class Solution {
 
     }
 
+    /**
+     * 删除链表倒数第N个节点
+     *
+     * @param head
+     * @param n
+     * @return
+     */
+    public static ListNode removeNthFromEnd(ListNode head, int n) {
+        if (head == null) {
+            return null;
+        }
+        ListNode curr = head;
+        ListNode prev = null;
+        while (curr != null) {
+            int h = getHeight(curr);
+            if (h == n) {
+                if (prev != null) {
+                    prev.next = curr.next;
+                } else {
+                    head = curr.next;
+                }
+            }
+            prev = curr;
+            curr = curr.next;
+        }
+        return head;
+    }
+
+    private static int getHeight(ListNode curr) {
+        int n = 0;
+        if (curr.next == null) {
+            return 1;
+        }
+        return getHeight(curr.next) + 1;
+    }
+
+
     public static void main(String[] args) {
         ListNode node1 = new ListNode(4);
         ListNode node2 = new ListNode(5);
