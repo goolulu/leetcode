@@ -1,11 +1,16 @@
 package leetcode.algorithm.dynamicprogram;
 
-import java.util.stream.Stream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.IntStream;
 
 public class Solution {
     public static void main(String[] args) {
-        System.out.println(longestCommonPrefix(Stream.of("flower", "flow", "flight").toArray(String[]::new)));
-        System.out.println(longestCommonPrefix(Stream.of("dog", "racecar", "car").toArray(String[]::new)));
+//        System.out.println(longestCommonPrefix(Stream.of("flower", "flow", "flight").toArray(String[]::new)));
+//        System.out.println(longestCommonPrefix(Stream.of("dog", "racecar", "car").toArray(String[]::new)));
+//        threeSum(IntStream.of(-1, 0, 1, 2, -1, -4).toArray());
+        threeSumClosest(IntStream.of(-1, 2, 1, -4).toArray(), 1);
     }
 
 
@@ -115,5 +120,71 @@ public class Solution {
         return commonPrefix;
     }
 
+    /**
+     * 三数之和
+     *
+     * @param nums
+     * @return
+     */
+    public static List<List<Integer>> threeSum(int[] nums) {
 
+        int n = nums.length;
+        Arrays.sort(nums);
+        List<List<Integer>> ans = new ArrayList<>();
+
+        for (int i = 0; i < n; i++) {
+            if (i > 0 && nums[i] == nums[i - 1]) {
+                continue;
+            }
+            int k = n - 1;
+            int target = -nums[i];
+            for (int j = i + 1; j < n; j++) {
+                if (j > i + 1 && nums[j] == nums[j - 1]) {
+                    continue;
+                }
+                while (j < k && nums[j] + nums[k] > target) {
+                    k--;
+                }
+                if (j == k) {
+                    break;
+                }
+                if (nums[j] + nums[k] == target) {
+                    List<Integer> list = new ArrayList<>();
+                    list.add(nums[i]);
+                    list.add(nums[j]);
+                    list.add(nums[k]);
+                    ans.add(list);
+                }
+            }
+        }
+        return ans;
+    }
+
+    /**
+     * 最接近的三数之和
+     *
+     * @param nums
+     * @param target
+     * @return
+     */
+    public static int threeSumClosest(int[] nums, int target) {
+        int n = nums.length;
+        if (n == 3) {
+            return Arrays.stream(nums).sum();
+        }
+        Arrays.sort(nums);
+
+        int sum = 0, min = Integer.MAX_VALUE;
+        for (int i = 0; i < n; i++) {
+            for (int j = i + 1; j < n; j++) {
+                int temp = Math.abs(target - (nums[i] + nums[j]));
+                int k = n - 1;
+                while (j < k && Math.abs(nums[i] + nums[j] + nums[k]) < min) {
+                    sum = nums[i] + nums[j] + nums[k];
+                    k--;
+                }
+            }
+        }
+        return sum;
+    }
 }
