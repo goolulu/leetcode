@@ -1,9 +1,11 @@
 package leetcode;
 
 import leetcode.struct.ListNode;
+import leetcode.struct.Node;
 import leetcode.struct.TreeNode;
 
 import java.util.*;
+import java.util.stream.IntStream;
 
 /**
  * @author huangrn
@@ -15,10 +17,7 @@ public class Solution {
     int res = 0;
     private TreeNode node;
 
-    public static void main(String[] args) {
-        Solution s = new Solution();
 
-    }
 
     /**
      * 1. 两数之和
@@ -2179,30 +2178,94 @@ public class Solution {
             }
         }
         int ans = 0;
-        for (int i = nums.length-1; i >=0 ; i--) {
-            while (!stack.isEmpty() && nums[i] >=  nums[stack.peek()]) {
+        for (int i = nums.length - 1; i >= 0; i--) {
+            while (!stack.isEmpty() && nums[i] >= nums[stack.peek()]) {
                 ans = Math.max(ans, i - stack.pop());
             }
         }
         return ans;
     }
 
+    public static int strStr(String haystack, String needle) {
+        int i = 0, j = 0;
+        while (i < haystack.length()) {
+            char hay = haystack.charAt(i);
+            char need = needle.charAt(0);
+            if (hay == need) {
+                if (i + needle.length() <= haystack.length()) {
+                    String str1 = haystack.substring(i, i + needle.length());
+                    if (str1.equals(needle)) {
+                        return i;
+                    } else {
+                        i++;
+                    }
+                } else {
+                    return -1;
+                }
+            } else {
+                i++;
+            }
+        }
+        return -1;
+    }
 
-    static class Node {
-        public int val;
-        public List<Node> children;
-
-        public Node() {
+    /**
+     * 31. 下一个排列
+     *
+     * @param nums
+     */
+    public static void nextPermutation(int[] nums) {
+        int[][] map = new int[nums.length][2];
+        for (int i = 0; i < nums.length; i++) {
+            map[i][0] = 101;
+            map[i][1] = 101;
+            for (int j = i + 1; j < nums.length; j++) {
+                if (nums[i] < nums[j] && nums[j] < map[i][0]) {
+                    map[i][0] = nums[j];
+                    map[i][1] = j;
+                }
+            }
         }
 
-        public Node(int val) {
-            this.val = val;
+        for (int i = nums.length - 1; i >= 0; i--) {
+            int k = map[i][0];
+            if (k != 101 && k > nums[i]) {
+                nums[map[i][1]] = nums[i];
+                nums[i] = k;
+                Arrays.sort(nums, i + 1, nums.length);
+                return;
+            }
+        }
+        Arrays.sort(nums);
+    }
+
+    public boolean isValidSudoku(char[][] board) {
+        int[][] rows = new int[9][9];
+        int[][] colums = new int[9][9];
+        int[][][] subboxes = new int[3][3][9];
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[i].length; j++) {
+                int index = board[i][j] - '0' - 1;
+                rows[i][index]++;
+                colums[j][index]++;
+                subboxes[i / 3][j / 3][index]++;
+                if (rows[i][index] > 1 ||
+                        colums[j][index] > 1 ||
+                        subboxes[i / 3][j / 3][index] > 1) {
+                    return false;
+                }
+            }
         }
 
-        public Node(int _val, List<Node> children) {
-            this.val = _val;
-            this.children = children;
-        }
+        return true;
+
+    }
+
+    public static void main(String[] args) {
+//        System.out.println(strStr("sadbutsad","sad"));
+//        System.out.println(strStr("leetcode","leeto"));
+//       nextPermutation(IntStream.of(2, 1, 3).toArray());
+        nextPermutation(IntStream.of(1, 3, 2).toArray());
 
     }
 }
