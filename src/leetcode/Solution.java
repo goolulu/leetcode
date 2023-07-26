@@ -18,7 +18,6 @@ public class Solution {
     private TreeNode node;
 
 
-
     /**
      * 1. 两数之和
      *
@@ -2239,13 +2238,22 @@ public class Solution {
         Arrays.sort(nums);
     }
 
-    public boolean isValidSudoku(char[][] board) {
+    /**
+     * 36. 有效的数独
+     *
+     * @param board
+     * @return
+     */
+    public static boolean isValidSudoku(char[][] board) {
         int[][] rows = new int[9][9];
         int[][] colums = new int[9][9];
         int[][][] subboxes = new int[3][3][9];
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[i].length; j++) {
                 int index = board[i][j] - '0' - 1;
+                if (index < 0) {
+                    continue;
+                }
                 rows[i][index]++;
                 colums[j][index]++;
                 subboxes[i / 3][j / 3][index]++;
@@ -2261,11 +2269,38 @@ public class Solution {
 
     }
 
-    public static void main(String[] args) {
-//        System.out.println(strStr("sadbutsad","sad"));
-//        System.out.println(strStr("leetcode","leeto"));
-//       nextPermutation(IntStream.of(2, 1, 3).toArray());
-        nextPermutation(IntStream.of(1, 3, 2).toArray());
+    /**
+     * 38. 外观数列
+     *
+     * @param n
+     * @return
+     */
+    public static String countAndSay(int n) {
+        if (n == 1) {
+            return "1";
+        }
+        if (n == 2) {
+            return "11";
+        }
 
+        String preStr = countAndSay(n - 1);
+        StringBuilder result = new StringBuilder();
+        char preChar = preStr.charAt(0);
+        int times = 1;
+        for (int i = 1; i < preStr.length(); i++) {
+            char c = preStr.charAt(i);
+            if (c == preChar) {
+                times++;
+            } else {
+                result.append(times).append(preChar);
+                preChar = c;
+                times = 1;
+            }
+        }
+        return result.append(times).append(preChar).toString();
+    }
+
+
+    public static void main(String[] args) {
     }
 }
